@@ -4,9 +4,7 @@ const main = {
    devtool: 'source-map',
    output: {
       path: path.resolve(__dirname, 'lib'),
-      filename: 'x-components.js',
-      libraryTarget: 'commonjs2',
-      library: 'X',
+      filename: 'x-components.bundle.js',
    },
    module: {
       rules: [
@@ -18,17 +16,18 @@ const main = {
       ]
    },
    watchOptions: {
-      aggregateTimeout: 300,
       ignored: /node_modules/,
    }
 };
 
 const demo = {
-   entry: './demo/index.js',
+   entry: './src/demos/index.js',
    devtool: 'source-map',
    output: {
       path: path.resolve(__dirname, 'lib'),
       filename: 'demo.bundle.js',
+      libraryTarget: 'umd',
+      library: 'XComponentDemos'
    },
    module: {
       rules: [
@@ -40,9 +39,8 @@ const demo = {
       ]
    },
    watchOptions: {
-      aggregateTimeout: 300,
       ignored: /node_modules/,
    }
 };
 
-module.exports = [demo, main];
+module.exports = [demo];
