@@ -7,44 +7,35 @@ import Icon from '../Icon';
 import Color from 'color';
 
 const propValues = {
-   color: ['primary', 'secondary', 'success', 'warning', 'error'],
-   type: ['light', 'filled', 'transparent'],
+   color: ['darkgrey', 'primary', 'secondary', 'success', 'warning', 'error'],
+   type: ['default', 'filled', 'transparent'],
 };
 
 const useStyles = createUseStyles(theme => ({
    button: {
+      display: 'inline-block',
+      textTransform: 'uppercase',
+      padding: 0,
+      border: 'none',
+      fontFamily: 'inherit',
+      fontSize: theme.fontSizes.normal,
+      transition: theme.transition(['background', 'color']),
+      fontWeight: 500,
+      borderRadius: ({ round, rounded }) => round ? '50%' : rounded ? theme.fontSizes.normal / 3 : 0,
+      boxShadow: ({ type }) => type === 'transparent' ? 'none' : theme.shadows[1],
+      cursor: ({ disabled }) => disabled ? 'default' : 'pointer',
+      width: ({ fullWidth }) => fullWidth && '100%',
+      '&:focus': {
+         outline: 'none'
+      }
+   },
+   content: {
+      width: '100%',
+      height: '100%',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      lineHeight: '100%',
-      position: 'relative',
-      textTransform: 'uppercase',
-      border: 'none',
-      fontFamily: theme.fontFamily,
-      transition: theme.transition(['background', 'color']),
-      cursor: 'pointer',
-      boxShadow: theme.shadows[1],
-      fontSize: theme.fontSizes.normal,
-      fontWeight: 500,
-      padding: '6px 15px',
-      '&:focus': {
-         outline: 'none'
-      },
-      '&::-moz-focus-inner': {
-         border: 0
-      }
-   },
-   rounded: {
-      borderRadius: theme.fontSizes.normal / 3,
-   },
-   round: {
-      borderRadius: '50%',
-   },
-   noShadow: {
-      boxShadow: 'none',
-   },
-   disabled: {
-      cursor: 'default'
+      padding: ({ iconButton }) => iconButton ? '6px 6px' : '6px 15px',
    },
    ...propValues.color.reduce((acc, color) => ({
       ...acc,
@@ -54,76 +45,78 @@ const useStyles = createUseStyles(theme => ({
             const style = { '&:hover': {}, '&:active': {} };
             switch (type) {
                case 'transparent':
-                  style.color = theme.colors[color][status === 'enabled' ? 'normal' : 'disabled'];
+                  style.color = theme.colors[color][status === 'enabled' ? theme.decide('light', 'normal') : 'disabled'];
                   style.backgroundColor = 'transparent';
                   if (status === 'enabled') {
-                     style['&:hover'].backgroundColor = Color(style.color).alpha(0.15).string();
-                     style['&:active'].backgroundColor = Color(style.color).alpha(0.3).string();
+                     style['&:hover'].backgroundColor = Color(style.color).alpha(0.2).string();
+                     style['&:active'].backgroundColor = Color(style.color).alpha(0.35).string();
                   }
                   break;
                case 'filled':
-                  style.backgroundColor = theme.colors[color][status === 'enabled' ? 'normal' : 'disabled'];
+                  style.backgroundColor = theme.colors[color][status === 'enabled' ? theme.decide('light', 'normal') : 'disabled'];
                   style.color = theme.textColors[Color(theme.colors[color].dark).isLight() ? 'normal' : 'reversed'];
                   if (status === 'enabled') {
-                     style['&:hover'].backgroundColor = theme.colors[color].dark;
-                     style['&:active'].backgroundColor = theme.colors[color].light;
+                     style['&:hover'].backgroundColor = theme.colors[color][theme.decide('normal', 'dark')];
+                     style['&:active'].backgroundColor = theme.colors[color][theme.decide('lighter', 'light')];
                   }
                   break;
                default:
-                  style.color = theme.colors[color][status === 'enabled' ? 'normal' : 'disabled'];
-                  style.backgroundColor = theme.colors.lightgrey[status === 'enabled' ? 'normal' : 'disabled'];
+                  style.color = theme.colors[color][status === 'enabled' ? theme.decide('lighter', 'normal') : 'disabled'];
+                  style.backgroundColor = theme.colors[theme.decide('darkgrey', 'lightgrey')]
+                  [status === 'enabled' ? theme.decide('darker', 'light') : 'disabled'];
                   if (status === 'enabled') {
-                     style['&:hover'].backgroundColor = theme.colors.lightgrey.dark;
-                     style['&:active'].backgroundColor = theme.colors.lightgrey.light;
+                     style['&:hover'].backgroundColor = theme.colors[theme.decide('darkgrey', 'lightgrey')][theme.decide('dark', 'normal')];
+                     style['&:active'].backgroundColor = theme.colors[theme.decide('darkgrey', 'lightgrey')][theme.decide('normal', 'light')];
                   }
             }
             return {
                ...acc,
-               [`${type}-${color}-${status}`]: style
+               [`${type}${color}${status}`]: style
             };
          }, {})
       }), {})
    }), {}),
-   fullWidth: {
-      width: '100%'
-   }
 }));
 
 const Button = props => {
-   const { children, color, type, rounded, round, disabled, fullWidth, ...others } = props;
+   const { children, color, type, rounded, round, disabled, fullWidth, iconButton, className, ...others } = props;
    const classes = useStyles(props);
-   const buttonClasses = classnames(
-      'XButton',
-      classes.button,
-      classes[`${type}-${color}-${disabled ? 'disabled' : 'enabled'}`],
-      {
-         [classes.noShadow]: type === 'transparent',
-         [classes.disabled]: disabled,
-         [classes.fullWidth]: fullWidth,
-         [classes.rounded]: rounded,
-         [classes.round]: round,
-      }
+   const combinedClasses = {
+      button: classnames(className, classes.button, classes[`${type}${color}${disabled ? 'disabled' : 'enabled'}`]),
+   };
+   return (
+      <button
+         className={combinedClasses.button}
+         {...others}>
+         <div
+            className={classes.content}>
+            {children}
+         </div>
+      </button>
    );
-   return <button className={buttonClasses} {...others}>{children}</button>;
 };
 
 Button.propTypes = {
    children: childrenValidator([{ type: 'string' }, { type: 'span' }, { type: Icon }, { type: 'number' }]),
+   className: PropTypes.string,
    color: PropTypes.oneOf(propValues.color),
    type: PropTypes.oneOf(propValues.type),
    rounded: PropTypes.bool,
    round: PropTypes.bool,
    disabled: PropTypes.bool,
    fullWidth: PropTypes.bool,
+   iconButton: PropTypes.bool
 };
 
 Button.defaultProps = {
+   className: '',
    color: 'primary',
-   type: 'light',
+   type: 'default',
    rounded: true,
    round: false,
    disabled: false,
    fullWidth: false,
+   iconButton: false
 };
 
 export { Button, propValues };

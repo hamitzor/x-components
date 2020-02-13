@@ -1,2 +1,2 @@
-import theme from './theme';
-export default theme;
+import { createTheme } from './theme';
+export { createTheme };

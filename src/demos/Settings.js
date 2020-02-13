@@ -13,7 +13,7 @@ const Select = props => {
       <div className="row prop" key={propName}>
          <div>{propName}</div>
          <div>
-            <select value={value} onChange={e => onChange({ [propName]: e.target.value })}>
+            <select value={value} onChange={e => onChange(e.target.value)}>
                {propValues.map(value => <option key={value} value={value}>{value}</option>)}
             </select>
          </div>
@@ -32,10 +32,10 @@ const Bool = props => {
          <div>{propName}</div>
          <div>
             <input type="radio" id={`${propName}-true`} name={propName} checked={true === value}
-               onChange={e => onChange({ [propName]: true })} />
+               onChange={e => onChange(true)} />
             <label htmlFor={`${propName}-true`}>true</label>
             <input type="radio" id={`${propName}-false`} name={propName} checked={false === value}
-               onChange={e => onChange({ [propName]: false })} />
+               onChange={e => onChange(false)} />
             <label htmlFor={`${propName}-false`}>false</label>
          </div>
       </div>
@@ -52,7 +52,7 @@ const Text = props => {
       <div className="row prop" key={propName}>
          <div>{propName}</div>
          <div>
-            <input type="text" value={value} onChange={e => onChange({ [propName]: e.target.value })} />
+            <input type="text" value={value} onChange={e => onChange(e.target.value)} />
          </div>
       </div>
    );
@@ -68,11 +68,48 @@ const NumberInput = props => {
       <div className="row prop" key={propName}>
          <div>{propName}</div>
          <div>
-            <input type="number" value={value} onChange={e => onChange({ [propName]: Number(e.target.value) })} />
+            <input type="number" value={value} onChange={e => onChange(Number(e.target.value))} />
          </div>
       </div>
    );
 };
+
+const SettingsSet = ({ name, data, classes, values, onChange }) => data.length > 0 && (
+   <div
+      className={classes.optionsContainer}>
+      <div
+         className="row header"
+         key="title">
+         <div>{name} Name</div>
+         <div>{name} Value</div>
+      </div>
+      {data.map(({ name, type, values: possibleValues }) => (
+         type === 'select' ? (
+            <Select
+               key={name}
+               propName={name}
+               propValues={possibleValues}
+               onChange={onChange[name]}
+               value={values[name]} />
+         ) : type === 'bool' ? (
+            <Bool
+               key={name}
+               propName={name}
+               onChange={onChange[name]}
+               value={values[name]} />
+         ) : type === 'text' ? (
+            <Text
+               key={name}
+               propName={name}
+               onChange={onChange[name]}
+               value={values[name]} />
+         ) : <NumberInput
+                     key={name}
+                     propName={name}
+                     onChange={onChange[name]}
+                     value={values[name]} />
+      ))}
+   </div>);
 
 const useStyles = createUseStyles({
    buttonContainer: {
@@ -84,23 +121,29 @@ const useStyles = createUseStyles({
    optionsContainer: {
       display: 'flex',
       flexDirection: 'column',
-      margin: 10,
       border: '1px solid #ddd',
-      width: '30%',
+      width: '35%',
       '& select': {
          width: '100%'
       },
-
+      '&:nth-child(2)': {
+         marginLeft: 20
+      },
       '& div.row': {
          display: 'flex',
          alignItems: 'center',
          justifyContent: 'center',
-         height: 30,
          padding: '5px 15px',
          '&.header': {
             color: '#fff',
             fontWeight: 600,
-            backgroundColor: '#444'
+            backgroundColor: '#444',
+            '& div': {
+               fontFamily: 'Roboto'
+            }
+         },
+         '&:nth-child(2n).prop': {
+            backgroundColor: '#fff'
          },
          '&:nth-child(2n+1).prop': {
             backgroundColor: '#eee'
@@ -123,37 +166,10 @@ const Settings = props => {
    } = props;
    const classes = useStyles();
    return (
-      <div className={classes.settings}>
-         <div className={classes.optionsContainer}>
-            <div className="row header" key="title">
-               <div>Prop Name</div>
-               <div>Prop Value</div>
-            </div>
-            {settingsData.props.map(({ propName, type, propValues }) => (
-               type === 'select' ? (
-                  <Select key={propName} propName={propName} propValues={propValues} onChange={onChange} value={values[propName]} />
-               ) : type === 'bool' ? (
-                  <Bool key={propName} propName={propName} onChange={onChange} value={values[propName]} />
-               ) : type === 'text' ? (
-                  <Text key={propName} propName={propName} onChange={onChange} value={values[propName]} />
-               ) : <NumberInput key={propName} propName={propName} onChange={onChange} value={values[propName]} />
-            ))}
-         </div>
-         <div className={classes.optionsContainer}>
-            <div className="row header" key="title">
-               <div>Variable Name</div>
-               <div>Variable Value</div>
-            </div>
-            {settingsData.variables.map(({ variableName, type, variablesValues }) => (
-               type === 'select' ? (
-                  <Select key={variableName} propName={variableName} propValues={variablesValues} onChange={onChange} value={values[variableName]} />
-               ) : type === 'bool' ? (
-                  <Bool key={variableName} propName={variableName} onChange={onChange} value={values[variableName]} />
-               ) : type === 'text' ? (
-                  <Text key={variableName} propName={variableName} onChange={onChange} value={values[variableName]} />
-               ) : <NumberInput key={variableName} propName={variableName} onChange={onChange} value={values[variableName]} />
-            ))}
-         </div>
+      <div
+         className={classes.settings}>
+         <SettingsSet onChange={onChange} values={values} classes={classes} name="Prop" data={settingsData.props} />
+         <SettingsSet onChange={onChange} values={values} classes={classes} name="Variable" data={settingsData.variables} />
       </div>
    );
 };

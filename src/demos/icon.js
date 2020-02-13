@@ -1,52 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
 import render from './render';
-import { Icon } from '../index';
+import Icon from '../components/Icon';
+import Panel from '../components/Panel';
 import { MdNotifications } from 'react-icons/md';
 import { propValues } from '../components/Icon/Icon';
 import { createUseStyles } from 'react-jss';
 import Settings from './Settings';
 
-class IconDemosContainer extends React.Component {
-   state = {
-      color: 'inherit',
-      size: 100
-   }
-   render() {
-      return <IconDemos {...this.state} onChange={data => this.setState(data)} />;
-   }
-}
 const useStyles = createUseStyles({
    iconContainer: {
-      display: 'inline-block'
+      display: 'inline-block',
+      margin: 20,
    }
 });
-const IconDemos = props => {
-   const {
-      color,
-      size,
-      onChange
-   } = props;
-   const classes = useStyles();
+const Demo = () => {
+   const [color, setColor] = useState('primary'),
+      [size, setSize] = useState(100),
+      classes = useStyles();
+
    return (
       <div>
          <Settings
-            onChange={onChange}
+            onChange={{
+               color: setColor,
+               size: setSize
+            }}
             values={{ color, size }}
             settingsData={{
                props: [
-                  { propName: 'color', type: 'select', propValues: propValues.color },
+                  { name: 'color', type: 'select', values: propValues.color },
                ],
                variables: [
-                  { variableName: 'size', type: 'number' }
+                  { name: 'size', type: 'number' }
                ]
             }} />
-         <div className={classes.iconContainer}>
-            <Icon color={color}>
-               <MdNotifications style={{ fontSize: size }} />
+         <Panel
+            className={classes.iconContainer}>
+            <Icon
+               color={color}>
+               <MdNotifications
+                  style={{ fontSize: size }} />
             </Icon>
-         </div>
+         </Panel>
       </div>
    );
 };
 
-export default () => render(<IconDemosContainer />, 'app');
+export default () => render(<Demo />, 'app');

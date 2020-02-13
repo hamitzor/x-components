@@ -1,5 +1,6 @@
-import spinnerDemo from './spinner';
-import buttonDemo from './button';
-import iconDemo from './icon';
+import Spinner from './spinner';
+import Button from './button';
+import Icon from './icon';
+import TextInput from './text-input';
 
-export default { spinnerDemo, buttonDemo, iconDemo };
+export default { Spinner, Button, Icon, TextInput };

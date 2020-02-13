@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { CSSTransition } from 'react-transition-group';
 
 const propValues = {
-   color: ['primary', 'secondary', 'success', 'warning', 'error']
+   color: ['darkgrey', 'primary', 'secondary', 'success', 'warning', 'error']
 };
 
 const useStyles = createUseStyles(theme => ({
@@ -14,11 +14,9 @@ const useStyles = createUseStyles(theme => ({
    },
    spinner: {
       animation: '$spin 1s linear infinite',
-      borderWidth: 2,
-      borderStyle: 'solid',
+      border: `2px solid ${theme.colors[theme.decide('grey', 'lightgrey')].normal}`,
       borderRadius: '50%',
-      borderColor: '#f2f2f2',
-      borderTopColor: ({ color }) => theme.colors[color].normal,
+      borderTopColor: ({ color }) => theme.colors[color][theme.decide('light', 'normal')],
       width: '100%',
       height: '100%',
       minWidth: '10px',
@@ -44,7 +42,9 @@ const Spinner = props => {
    const { color, visible, animate, ...others } = props;
    const theme = useTheme();
    const classes = useStyles({ ...props, theme });
-   const component = <div className={classes.spinner}  {...others}></div>;
+   const component = <div
+      className={classes.spinner}
+      {...others} />;
    if (animate)
       return <CSSTransition
          in={visible}
@@ -55,8 +55,9 @@ const Spinner = props => {
             enterActive: classes.enterActive,
             exit: classes.exit,
             exitActive: classes.exitActive
-         }}
-      >{component}</CSSTransition>;
+         }}>
+         {component}
+      </CSSTransition>;
    else
       return visible && component;
 };

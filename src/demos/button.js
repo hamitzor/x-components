@@ -1,105 +1,128 @@
-import React from 'react';
+import React, { useState } from 'react';
 import render from './render';
 import Button from '../components/Button';
+import Panel from '../components/Panel';
 import { propValues } from '../components/Button/Button';
 import { createUseStyles } from 'react-jss';
 import Settings from './Settings';
 import { Icon } from '../index';
-import { MdLock } from 'react-icons/md';
+import { MdLock, MdAccountBalance } from 'react-icons/md';
 
-class ButtonDemosContainer extends React.Component {
-   state = {
-      color: 'primary',
-      type: 'light',
-      rounded: true,
-      round: false,
-      disabled: false,
-      fullWidth: false,
-      buttonText: 'hello',
-      buttonFontSize: 16
-   }
-   render() {
-      return <ButtonDemos {...this.state} onChange={data => this.setState(data)} />;
-   }
-}
 const useStyles = createUseStyles({
-   buttonContainer: {
-      margin: 10
+   buttonsContainer: {
+      margin: 20,
+      display: 'flex',
+      alignItems: 'center'
+   },
+   button: {
+      marginRight: 20
    }
 });
-const ButtonDemos = props => {
-   const {
-      color,
-      type,
-      rounded,
-      round,
-      disabled,
-      fullWidth,
-      onChange,
-      buttonText,
-      buttonFontSize
-   } = props;
-   const classes = useStyles();
-   const buttonProps = {
-      color,
-      type,
-      rounded,
-      round,
-      disabled,
-      fullWidth,
-      style: { fontSize: buttonFontSize }
-   };
+
+const Demo = () => {
+
+   const [color, setColor] = useState('primary'),
+      [type, setType] = useState('default'),
+      [rounded, setRounded] = useState(true),
+      [round, setRound] = useState(false),
+      [disabled, setDisabled] = useState(false),
+      [fullWidth, setFullWidth] = useState(false),
+      [buttonText, setButtonText] = useState('Login'),
+      [buttonFontSize, setButtonFontSize] = useState(14),
+      classes = useStyles(),
+      buttonProps = {
+         color,
+         type,
+         rounded,
+         round,
+         disabled,
+         fullWidth,
+         style: { fontSize: buttonFontSize }
+      };
+
    return (
       <div>
          <Settings
-            onChange={onChange}
+            onChange={{
+               color: setColor,
+               type: setType,
+               rounded: setRounded,
+               round: setRound,
+               disabled: setDisabled,
+               fullWidth: setFullWidth,
+               buttonText: setButtonText,
+               buttonFontSize: setButtonFontSize
+            }}
             values={{ color, type, rounded, round, disabled, fullWidth, buttonText, buttonFontSize }}
             settingsData={{
                props: [
-                  { propName: 'color', type: 'select', propValues: propValues.color },
-                  { propName: 'type', type: 'select', propValues: propValues.type },
-                  { propName: 'rounded', type: 'bool' },
-                  { propName: 'round', type: 'bool' },
-                  { propName: 'disabled', type: 'bool' },
-                  { propName: 'fullWidth', type: 'bool' }
+                  { name: 'color', type: 'select', values: propValues.color },
+                  { name: 'type', type: 'select', values: propValues.type },
+                  { name: 'rounded', type: 'bool' },
+                  { name: 'round', type: 'bool' },
+                  { name: 'disabled', type: 'bool' },
+                  { name: 'fullWidth', type: 'bool' }
                ],
                variables: [
-                  { variableName: 'buttonText', type: 'text' },
-                  { variableName: 'buttonFontSize', type: 'number' }
+                  { name: 'buttonText', type: 'text' },
+                  { name: 'buttonFontSize', type: 'number' }
                ]
             }} />
-         <div className={classes.buttonContainer}>
-            <Button {...buttonProps}>{buttonText}</Button>
-         </div>
-         <div className={classes.buttonContainer}>
-            <Button {...buttonProps}>{buttonText}
-               <Icon leftGap>
-                  <MdLock style={{ fontSize: buttonFontSize }} />
+         <Panel
+            className={classes.buttonsContainer}>
+            <Button
+               className={classes.button}
+               {...buttonProps}>
+               {buttonText}
+            </Button>
+            <Button
+               className={classes.button}
+               {...buttonProps}>
+               {buttonText}
+               <Icon
+                  leftGap>
+                  <MdLock
+                     style={{ fontSize: buttonFontSize }} />
                </Icon>
             </Button>
-         </div>
-         <div className={classes.buttonContainer}>
-            <Button {...buttonProps}>
-               <Icon rightGap>
-                  <MdLock style={{ fontSize: buttonFontSize }} />
+            <Button
+               className={classes.button}
+               {...buttonProps}>
+               <Icon
+                  rightGap>
+                  <MdLock
+                     style={{ fontSize: buttonFontSize }} />
                </Icon>
                {buttonText}
             </Button>
-         </div>
-         <div className={classes.buttonContainer}>
-            <Button {...buttonProps}>
-               <Icon rightGap>
-                  <MdLock style={{ fontSize: buttonFontSize }} />
+            <Button
+               className={classes.button}
+               {...buttonProps}>
+               <Icon
+                  rightGap>
+                  <MdLock
+                     style={{ fontSize: buttonFontSize }} />
                </Icon>
                {buttonText}
-               <Icon leftGap>
-                  <MdLock style={{ fontSize: buttonFontSize }} />
+               <Icon
+                  leftGap>
+                  <MdLock
+                     style={{ fontSize: buttonFontSize }} />
                </Icon>
             </Button>
-         </div>
+            <Button
+               iconButton
+               className={classes.button}
+               {...buttonProps}>
+               <Icon>
+                  <MdAccountBalance
+                     style={{ fontSize: buttonFontSize }} />
+               </Icon>
+            </Button>
+         </Panel>
       </div>
    );
 };
 
 
-export default () => render(<ButtonDemosContainer />, 'app');
+export default () => render(<Demo />, 'app');

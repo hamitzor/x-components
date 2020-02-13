@@ -1,38 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 import { createUseStyles } from 'react-jss';
 
 const propValues = {
-   color: ['inherit', 'primary', 'secondary', 'success', 'warning', 'error'],
+   color: ['inherit', 'darkgrey', 'primary', 'secondary', 'success', 'warning', 'error'],
 };
 
 const useStyles = createUseStyles(theme => ({
    icon: {
-      color: ({ color }) => color !== 'inherit' ? theme.colors[color].normal : 'inherit',
+      color: ({ color }) => color !== 'inherit' ? theme.colors[color][theme.decide('light', 'normal')] : 'inherit',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-   },
-   leftGap: {
-      marginLeft: theme.unit
-   },
-   rightGap: {
-      marginRight: theme.unit
+      marginLeft: ({ leftGap }) => leftGap && theme.unit,
+      marginRight: ({ rightGap }) => rightGap && theme.unit,
    }
 }));
 
 const Icon = props => {
    const { children, leftGap, rightGap, color, ...others } = props;
    const classes = useStyles(props);
-   const iconClasses = classnames(
-      classes.icon,
-      {
-         [classes.leftGap]: leftGap,
-         [classes.rightGap]: rightGap
-      }
+   return (
+      <div
+         className={classes.icon}
+         {...others}>
+         {children}
+      </div>
    );
-   return <div className={iconClasses} {...others}>{children}</div>;
 };
 
 Icon.propTypes = {
