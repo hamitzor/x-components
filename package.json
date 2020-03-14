@@ -23,6 +23,7 @@
       "mocha": "^7.0.1",
       "nodemon": "^2.0.2",
       "react-icons": "^3.9.0",
+      "react-router-dom": "^5.1.2",
       "webpack": "^4.41.5",
       "webpack-cli": "^3.3.10"
    },

@@ -1,3 +1,4 @@
+import Tooltip from '../components/Tooltip';
 const getTypeName = type => typeof type === 'function' ? type.name : type;
 
 export default rules => (props, propName, componentName) => {
@@ -8,7 +9,7 @@ export default rules => (props, propName, componentName) => {
       if (child === null || child === undefined)
          return;
       if (typeof child === 'object')
-         return child.type;
+         return child.type === Tooltip ? child.children[0].type : child.type;
       return typeof child;
    }).filter(childType => childType !== undefined);
    const allowedTypes = rules.map(rule => rule.type);

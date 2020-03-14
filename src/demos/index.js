@@ -1,6 +1,7 @@
-import Spinner from './spinner';
-import Button from './button';
-import Icon from './icon';
-import TextInput from './text-input';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
 
-export default { Spinner, Button, Icon, TextInput };
+ReactDOM.render((
+    <App />
+), document.getElementById('app'));

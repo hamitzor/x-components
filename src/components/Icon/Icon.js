@@ -17,17 +17,15 @@ const useStyles = createUseStyles(theme => ({
    }
 }));
 
-const Icon = props => {
+const Icon = React.forwardRef((props, ref) => {
    const { children, leftGap, rightGap, color, ...others } = props;
    const classes = useStyles(props);
    return (
-      <div
-         className={classes.icon}
-         {...others}>
+      <div ref={ref} className={classes.icon} {...others}>
          {children}
       </div>
    );
-};
+});
 
 Icon.propTypes = {
    children: PropTypes.any.isRequired,

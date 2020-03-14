@@ -1,5 +1,7 @@
 import Color from 'color';
 
+const breakpoints = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
+
 const createTheme = (type, options) => {
    const textColors = {
       normal: type === 'light' ? '#333333' : '#f2f2f2',
@@ -13,7 +15,7 @@ const createTheme = (type, options) => {
       secondary = Color('#8b36d6'),
       success = Color('#26ab49'),
       warning = Color('#e88d15'),
-      error = Color('#e34234'),
+      error = Color('#f26a5e'),
       darkgrey = Color('#454545'),
       grey = Color('#707070'),
       lightgrey = Color('#dbdbdb');
@@ -94,7 +96,7 @@ const createTheme = (type, options) => {
       h4: 23,
       h5: 18,
       h6: 16,
-      small: 14,
+      small: 10,
       normal: 14,
       large: 20
    };
@@ -106,16 +108,19 @@ const createTheme = (type, options) => {
       xl: 1600,
       xxl: 1920
    };
-   const shadows = [
+   const shadows = type === 'light' ? [
       'none',
-      '0px 1px 3px 0px rgba(0,0,0,0.09),0px 1px 1px 0px rgba(0,0,0,0.06),0px 2px 4px -1px rgba(0,0,0,0.02)',
-      '1px 1px 3px 0px rgba(0,0,0,0.1),-1px 0px 1px 0px rgba(0,0,0,0.1),1px 2px 4px -1px rgba(0,0,0,0.07)',
-   ];
+      '3px 3px 4px -1px rgba(0,0,0,0.12), 0 0 3px 1px rgba(0,0,0,0.1)',
+   ] : [
+         'none',
+         '0 0 1px 2px rgba(255,255,255,0.09)',
+      ];
    const z = {
       Alert: 4000,
       Popup: 4100,
       Select: 3900
    };
+   const pixel = value => typeof value === 'number' ? value : breakpointValues[value];
    return {
       type,
       textColors,
@@ -128,7 +133,7 @@ const createTheme = (type, options) => {
       breakpointValues,
       shadows,
       z,
-      breakpoints: () => Object.keys(breakpointValues),
+      breakpoints,
       width: widthInPixels => {
          let width = 'xs';
          if (widthInPixels >= breakpointValues.sm) width = 'sm';
@@ -137,7 +142,7 @@ const createTheme = (type, options) => {
          if (widthInPixels >= breakpointValues.xl) width = 'xl';
          return width;
       },
-      pixel: value => typeof value === 'number' ? value : breakpointValues[value],
+      pixel,
       screenWidth: () => width(window.innerWidth),
       min: width => `@media (min-width:${pixel(width)}px)`,
       max: width => `@media (max-width:${pixel(width)}px)`,
@@ -148,4 +153,4 @@ const createTheme = (type, options) => {
    };
 };
 
-export { createTheme };
+export { createTheme, breakpoints };

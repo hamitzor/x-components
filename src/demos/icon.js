@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import render from './render';
 import Icon from '../components/Icon';
 import Panel from '../components/Panel';
 import { MdNotifications } from 'react-icons/md';
@@ -10,7 +9,7 @@ import Settings from './Settings';
 const useStyles = createUseStyles({
    iconContainer: {
       display: 'inline-block',
-      margin: 20,
+      margin: 15,
    }
 });
 const Demo = () => {
@@ -46,4 +45,4 @@ const Demo = () => {
    );
 };
 
-export default () => render(<Demo />, 'app');
+export default { name: 'Icon', component: Demo };

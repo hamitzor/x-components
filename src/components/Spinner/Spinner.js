@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { CSSTransition } from 'react-transition-group';
 
 const propValues = {
-   color: ['darkgrey', 'primary', 'secondary', 'success', 'warning', 'error']
+   color: ['grey', 'darkgrey', 'primary', 'secondary', 'success', 'warning', 'error']
 };
 
 const useStyles = createUseStyles(theme => ({
@@ -38,29 +38,17 @@ const useStyles = createUseStyles(theme => ({
    },
 }));
 
-const Spinner = props => {
+const Spinner = React.forwardRef((props, ref) => {
    const { color, visible, animate, ...others } = props;
    const theme = useTheme();
    const classes = useStyles({ ...props, theme });
-   const component = <div
-      className={classes.spinner}
-      {...others} />;
-   if (animate)
-      return <CSSTransition
-         in={visible}
-         timeout={theme.animationDuration}
-         unmountOnExit
-         classNames={{
-            enter: classes.enter,
-            enterActive: classes.enterActive,
-            exit: classes.exit,
-            exitActive: classes.exitActive
-         }}>
+   const component = <div ref={ref} className={classes.spinner} {...others} />;
+   return animate ?
+      <CSSTransition in={visible} timeout={theme.animationDuration} unmountOnExit
+         classNames={{ enter: classes.enter, enterActive: classes.enterActive, exit: classes.exit, exitActive: classes.exitActive }}>
          {component}
-      </CSSTransition>;
-   else
-      return visible && component;
-};
+      </CSSTransition> : visible && component;
+});
 
 Spinner.propTypes = {
    color: PropTypes.oneOf(propValues.color),

@@ -4,13 +4,14 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { childrenValidator } from '../../util';
 import TextInput from '../TextInput';
+import InputExtension from '../InputExtension';
 
 const resolveChildren = children => {
    const headExtensions = [], tailExtensions = [];
    let base = undefined;
    React.Children.forEach(children, (child, index) => {
       if (child)
-         if (child.type === 'InputExtension')
+         if (child.type === InputExtension)
             if (!base)
                headExtensions.push(<child.type key={index} {...child.props}></child.type>);
             else
@@ -22,7 +23,7 @@ const resolveChildren = children => {
 };
 
 const propValues = {
-   color: ['darkgrey', 'primary', 'secondary', 'success', 'warning', 'error']
+   color: ['grey', 'darkgrey', 'primary', 'secondary', 'success', 'warning', 'error']
 };
 
 const useStyles = createUseStyles(theme => ({
@@ -37,19 +38,19 @@ const useStyles = createUseStyles(theme => ({
    },
    disabled: {
       pointerEvents: 'none',
-      color: `${theme.colors[theme.decide('grey', 'lightgrey')].normal}!important`
+      color: `${theme.colors[theme.decide('grey', 'lightgrey')].dark}!important`
    },
    disabledLabel: {
-      color: `${theme.colors[theme.decide('grey', 'lightgrey')].normal}!important`
+      color: `${theme.colors[theme.decide('grey', 'lightgrey')].dark}!important`
    },
    disabledDesc: {
-      color: `${theme.colors[theme.decide('grey', 'lightgrey')].normal}!important`
+      color: `${theme.colors[theme.decide('grey', 'lightgrey')].dark}!important`
    },
    disabledFieldset: {
-      borderColor: `${theme.colors[theme.decide('grey', 'lightgrey')].normal}!important`
+      borderColor: `${theme.colors[theme.decide('grey', 'lightgrey')].dark}!important`
    },
    fieldset: {
-      padding: '4px 8px 8px 8px',
+      padding: '0 8px 4px 8px',
       borderRadius: 4,
       border: `2px solid ${theme.colors.lightgrey[theme.decide('darker', 'normal')]}`,
       transition: theme.transition(['border']),
@@ -76,7 +77,7 @@ const useStyles = createUseStyles(theme => ({
       borderRadius: 0,
       paddingRight: 2,
       paddingLeft: 2,
-      paddingBottom: 3,
+      paddingBottom: 6,
       borderBottom: `2px solid ${theme.colors.lightgrey[theme.decide('darker', 'normal')]}`,
       '&:hover:not(:focus-within):not(.actLikeFocused)': {
          borderBottomColor: theme.colors.lightgrey[theme.decide('normal', 'darker')],
@@ -125,7 +126,8 @@ const useStyles = createUseStyles(theme => ({
       flex: 1,
       position: 'relative',
       display: 'flex',
-      alignItems: 'center'
+      alignItems: 'center',
+      padding: '7px 0'
    },
    extension: {
       display: 'flex',
@@ -144,14 +146,14 @@ const useStyles = createUseStyles(theme => ({
    }
 }));
 
-const Input = props => {
+const Input = React.forwardRef((props, ref) => {
    const [ready, setReady] = useState(false),
       [calculatedLegendWidth, setCalculatedLegendWidth] = useState(0),
       [transformData, setTransformData] = useState([0, 0]),
       [focused, setFocused] = useState(false),
       legendRef = React.createRef(),
-      labelRef = React.createRef();
-   let inputRef;
+      labelRef = React.createRef(),
+      inputRef = React.createRef();
 
    const computeTransformData = () => {
       const labelRect = labelRef.current.getBoundingClientRect();
@@ -190,7 +192,7 @@ const Input = props => {
       determinedColor = error ? 'error' : color,
       actLikeFocused = error || (typeof base.props.value === 'number' ? true : base.props.value.length > 0),
       combinedClasses = {
-         input: classnames('XInput', classes.input, { [classes.disabled]: base.props.disabled }, className),
+         input: classnames(classes.input, { [classes.disabled]: base.props.disabled }, className),
          fieldset: classnames(classes.fieldset, classes[`${determinedColor}Fieldset`], {
             [classes.onlyBottomBorder]: simple,
             'actLikeFocused': actLikeFocused,
@@ -203,69 +205,51 @@ const Input = props => {
       };
 
    return (
-      <div
-         className={combinedClasses.input} {...others}>
-         <div
-            tabIndex="0"
-            className={classes.container}
-            onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
+      <div ref={ref} className={combinedClasses.input} {...others}>
+         <div tabIndex="0" className={classes.container} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
             onClick={e => base.type !== TextInput && e.target.className.includes('captureClick') && inputRef.current.childNodes[0].click()}>
-            <fieldset
-               className={combinedClasses.fieldset}>
-               <legend
-                  ref={legendRef}
-                  className={classes.legend}
+            <fieldset className={combinedClasses.fieldset}>
+               <legend ref={legendRef} className={classes.legend}
                   style={ready ? (actLikeFocused || focused ? { width: calculatedLegendWidth + 6 } : { width: 0 }) : {}}>
                   <span>{label}</span>
                </legend>
-               <div
-                  className={classes.controlContainer}>
+               <div className={classes.controlContainer}>
                   {headExtensions.length > 0 &&
-                     <div
-                        className={combinedClasses.headExtension}>
+                     <div className={combinedClasses.headExtension}>
                         {headExtensions}
                      </div>}
-                  <div
-                     className={classes.base}>
-                     <div
-                        ref={labelRef}
-                        className={combinedClasses.label}
+                  <div className={classes.base}>
+                     <div ref={labelRef} className={combinedClasses.label}
                         style={{ transform: actLikeFocused || focused ? `translate(${transformData[0]}px, ${transformData[1]}px)` : '' }}>
                         {label}
                      </div>
-                     <base.type
-                        {...base.props}
-                        color={base.type !== TextInput ? (base.props.disabled ? 'grey' : determinedColor) : undefined}
-                        getInputRef={ref => { inputRef = ref; }} />
+                     <base.type {...base.props} color={base.type !== TextInput ? (base.props.disabled ? 'grey' : determinedColor) : undefined}
+                        ref={inputRef} />
                   </div>
                   {tailExtensions.length > 0 &&
-                     <div
-                        className={combinedClasses.tailExtension}>
+                     <div className={combinedClasses.tailExtension}>
                         {tailExtensions}
                      </div>}
                </div>
             </fieldset>
          </div>
          {!error && desc &&
-            <span
-               className={combinedClasses.desc}>
+            <span className={combinedClasses.desc}>
                {desc}
             </span>}
          {error &&
-            <span
-               className={classes.error}>
+            <span className={classes.error}>
                {errorMessage}
             </span>}
       </div>
    );
-};
+});
 
 Input.propTypes = {
    children: childrenValidator([
       { type: TextInput, max: 1 },
       { type: 'Select', max: 1 },
-      { type: 'InputExtension' }
+      { type: InputExtension }
    ]),
    simple: PropTypes.bool,
    color: PropTypes.oneOf(propValues.color),

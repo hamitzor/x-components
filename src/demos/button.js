@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import render from './render';
 import Button from '../components/Button';
 import Panel from '../components/Panel';
 import { propValues } from '../components/Button/Button';
@@ -10,7 +9,7 @@ import { MdLock, MdAccountBalance } from 'react-icons/md';
 
 const useStyles = createUseStyles({
    buttonsContainer: {
-      margin: 20,
+      margin: 15,
       display: 'flex',
       alignItems: 'center'
    },
@@ -22,7 +21,7 @@ const useStyles = createUseStyles({
 const Demo = () => {
 
    const [color, setColor] = useState('primary'),
-      [type, setType] = useState('default'),
+      [type, setType] = useState('filled'),
       [rounded, setRounded] = useState(true),
       [round, setRound] = useState(false),
       [disabled, setDisabled] = useState(false),
@@ -125,4 +124,4 @@ const Demo = () => {
 };
 
 
-export default () => render(<Demo />, 'app');
+export default { name: 'Button', component: Demo };

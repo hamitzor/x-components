@@ -1,6 +1,7 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
-
+import Panel from '../components/Panel';
+import Color from 'color';
 
 const Select = props => {
    const {
@@ -11,7 +12,7 @@ const Select = props => {
    } = props;
    return (
       <div className="row prop" key={propName}>
-         <div>{propName}</div>
+         <div style={{ fontFamily: 'Monospace', fontWeight: 600 }}>{propName}</div>
          <div>
             <select value={value} onChange={e => onChange(e.target.value)}>
                {propValues.map(value => <option key={value} value={value}>{value}</option>)}
@@ -29,14 +30,18 @@ const Bool = props => {
    } = props;
    return (
       <div className="row prop" key={propName}>
-         <div>{propName}</div>
-         <div>
-            <input type="radio" id={`${propName}-true`} name={propName} checked={true === value}
-               onChange={e => onChange(true)} />
-            <label htmlFor={`${propName}-true`}>true</label>
-            <input type="radio" id={`${propName}-false`} name={propName} checked={false === value}
-               onChange={e => onChange(false)} />
-            <label htmlFor={`${propName}-false`}>false</label>
+         <div style={{ fontFamily: 'Monospace', fontWeight: 600 }}>{propName}</div>
+         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+               <input type="radio" id={`${propName}-true`} name={propName} checked={true === value}
+                  onChange={e => onChange(true)} />
+               <label htmlFor={`${propName}-true`}>true</label>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+               <input type="radio" id={`${propName}-false`} name={propName} checked={false === value}
+                  onChange={e => onChange(false)} />
+               <label htmlFor={`${propName}-false`}>false</label>
+            </div>
          </div>
       </div>
    );
@@ -50,9 +55,9 @@ const Text = props => {
    } = props;
    return (
       <div className="row prop" key={propName}>
-         <div>{propName}</div>
+         <div style={{ fontFamily: 'Monospace', fontWeight: 600 }}>{propName}</div>
          <div>
-            <input type="text" value={value} onChange={e => onChange(e.target.value)} />
+            <input style={{ width: '100%' }} type="text" value={value} onChange={e => onChange(e.target.value)} />
          </div>
       </div>
    );
@@ -66,63 +71,41 @@ const NumberInput = props => {
    } = props;
    return (
       <div className="row prop" key={propName}>
-         <div>{propName}</div>
+         <div style={{ fontFamily: 'Monospace', fontWeight: 600 }}>{propName}</div>
          <div>
-            <input type="number" value={value} onChange={e => onChange(Number(e.target.value))} />
+            <input style={{ width: '100%' }} type="number" value={value} onChange={e => onChange(Number(e.target.value))} />
          </div>
       </div>
    );
 };
 
 const SettingsSet = ({ name, data, classes, values, onChange }) => data.length > 0 && (
-   <div
-      className={classes.optionsContainer}>
-      <div
-         className="row header"
-         key="title">
+   <div className={classes.optionsContainer}>
+      <div className="row header" key="title">
          <div>{name} Name</div>
          <div>{name} Value</div>
       </div>
       {data.map(({ name, type, values: possibleValues }) => (
          type === 'select' ? (
-            <Select
-               key={name}
-               propName={name}
-               propValues={possibleValues}
-               onChange={onChange[name]}
-               value={values[name]} />
+            <Select key={name} propName={name} propValues={possibleValues} onChange={onChange[name]} value={values[name]} />
          ) : type === 'bool' ? (
-            <Bool
-               key={name}
-               propName={name}
-               onChange={onChange[name]}
-               value={values[name]} />
+            <Bool key={name} propName={name} onChange={onChange[name]} value={values[name]} />
          ) : type === 'text' ? (
-            <Text
-               key={name}
-               propName={name}
-               onChange={onChange[name]}
-               value={values[name]} />
-         ) : <NumberInput
-                     key={name}
-                     propName={name}
-                     onChange={onChange[name]}
-                     value={values[name]} />
+            <Text key={name} propName={name} onChange={onChange[name]} value={values[name]} />
+         ) : <NumberInput key={name} propName={name} onChange={onChange[name]} value={values[name]} />
       ))}
    </div>);
 
-const useStyles = createUseStyles({
-   buttonContainer: {
-      margin: 10
-   },
+const useStyles = createUseStyles(theme => ({
    settings: {
       display: 'flex',
+      marginBottom: 15,
    },
    optionsContainer: {
+      color: theme.textColors.normal,
+      width: 600,
       display: 'flex',
       flexDirection: 'column',
-      border: '1px solid #ddd',
-      width: '35%',
       '& select': {
          width: '100%'
       },
@@ -135,42 +118,39 @@ const useStyles = createUseStyles({
          justifyContent: 'center',
          padding: '5px 15px',
          '&.header': {
-            color: '#fff',
+            backgroundColor: theme.colors.primary[theme.decide('light', 'normal')],
+            color: theme.textColors[Color(theme.colors.primary.dark).isLight() ? 'normal' : 'reversed'],
             fontWeight: 600,
-            backgroundColor: '#444',
-            '& div': {
-               fontFamily: 'Roboto'
-            }
          },
          '&:nth-child(2n).prop': {
-            backgroundColor: '#fff'
+            backgroundColor: theme.colors[theme.decide('darkgrey', 'lightgrey')][theme.decide('dark', 'disabled')],
          },
          '&:nth-child(2n+1).prop': {
-            backgroundColor: '#eee'
+            backgroundColor: theme.colors[theme.decide('darkgrey', 'lightgrey')][theme.decide('normal', 'light')],
          },
          '& div': {
             width: '50%'
          }
       },
-      '& *': {
+      propName: {
          fontFamily: 'monospace',
       }
    }
-});
+}));
 
 const Settings = props => {
    const {
       onChange,
       values,
-      settingsData
+      settingsData,
    } = props;
    const classes = useStyles();
    return (
-      <div
+      <Panel
          className={classes.settings}>
          <SettingsSet onChange={onChange} values={values} classes={classes} name="Prop" data={settingsData.props} />
          <SettingsSet onChange={onChange} values={values} classes={classes} name="Variable" data={settingsData.variables} />
-      </div>
+      </Panel>
    );
 };
 

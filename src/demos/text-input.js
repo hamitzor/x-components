@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import render from './render';
 import Input from '../components/Input';
 import Panel from '../components/Panel';
 import { propValues } from '../components/Input/Input';
@@ -9,7 +8,6 @@ import TextInput from '../components/TextInput';
 
 const useStyles = createUseStyles({
    inputContainer: {
-      margin: 20,
       '& .XInput': {
          marginRight: 40,
          marginBottom: 40
@@ -54,19 +52,19 @@ const Demo = () => {
             }} />
          <Panel
             className={classes.inputContainer}>
-            <Input
-               simple={simple}
-               color={color}
-               fullWidth={fullWidth}
-               desc={desc}
-               error={error}
-               errorMessage={errorMessage}
-               label="Hobbies">
-               <TextInput
-                  disabled={disabled}
-                  value={textValue}
-                  onChange={e => setTextValue(e.target.value)} />
-            </Input>
+               <Input
+                  simple={simple}
+                  color={color}
+                  fullWidth={fullWidth}
+                  desc={desc}
+                  error={error}
+                  errorMessage={errorMessage}
+                  label="Hobbies">
+                  <TextInput
+                     disabled={disabled}
+                     value={textValue}
+                     onChange={e => setTextValue(e.target.value)} />
+               </Input>
             <Input
                simple={simple}
                color={color}
@@ -86,4 +84,4 @@ const Demo = () => {
    );
 };
 
-export default () => render(<Demo />, 'app');
+export default { name: 'TextInput', component: Demo };

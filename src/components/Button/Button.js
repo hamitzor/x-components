@@ -7,7 +7,7 @@ import Icon from '../Icon';
 import Color from 'color';
 
 const propValues = {
-   color: ['darkgrey', 'primary', 'secondary', 'success', 'warning', 'error'],
+   color: ['grey', 'darkgrey', 'primary', 'secondary', 'success', 'warning', 'error'],
    type: ['default', 'filled', 'transparent'],
 };
 
@@ -20,9 +20,9 @@ const useStyles = createUseStyles(theme => ({
       fontFamily: 'inherit',
       fontSize: theme.fontSizes.normal,
       transition: theme.transition(['background', 'color']),
-      fontWeight: 500,
-      borderRadius: ({ round, rounded }) => round ? '50%' : rounded ? theme.fontSizes.normal / 3 : 0,
-      boxShadow: ({ type }) => type === 'transparent' ? 'none' : theme.shadows[1],
+      fontWeight: 600,
+      borderRadius: ({ round, rounded }) => round ? '50%' : rounded ? theme.fontSizes.normal / 3.5 : 0,
+      boxShadow: ({ type }) => type === 'transparent' ? 'none' : (theme.type === 'dark' ? 'none' : theme.shadows[1]),
       cursor: ({ disabled }) => disabled ? 'default' : 'pointer',
       width: ({ fullWidth }) => fullWidth && '100%',
       '&:focus': {
@@ -35,7 +35,7 @@ const useStyles = createUseStyles(theme => ({
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      padding: ({ iconButton }) => iconButton ? '6px 6px' : '6px 15px',
+      padding: ({ iconButton }) => iconButton ? '8px 8px' : '8px 15px',
    },
    ...propValues.color.reduce((acc, color) => ({
       ...acc,
@@ -78,23 +78,20 @@ const useStyles = createUseStyles(theme => ({
    }), {}),
 }));
 
-const Button = props => {
+const Button = React.forwardRef((props, ref) => {
    const { children, color, type, rounded, round, disabled, fullWidth, iconButton, className, ...others } = props;
    const classes = useStyles(props);
    const combinedClasses = {
       button: classnames(className, classes.button, classes[`${type}${color}${disabled ? 'disabled' : 'enabled'}`]),
    };
    return (
-      <button
-         className={combinedClasses.button}
-         {...others}>
-         <div
-            className={classes.content}>
+      <button ref={ref} className={combinedClasses.button} {...others}>
+         <div className={classes.content}>
             {children}
          </div>
       </button>
    );
-};
+});
 
 Button.propTypes = {
    children: childrenValidator([{ type: 'string' }, { type: 'span' }, { type: Icon }, { type: 'number' }]),
@@ -111,7 +108,7 @@ Button.propTypes = {
 Button.defaultProps = {
    className: '',
    color: 'primary',
-   type: 'default',
+   type: 'filled',
    rounded: true,
    round: false,
    disabled: false,

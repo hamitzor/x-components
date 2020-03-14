@@ -26,14 +26,7 @@ const useStyles = createUseStyles(theme => ({
    }
 }));
 
-const TextInput = props => {
-
-   const inputRef = React.createRef();
-
-   useEffect(() => {
-      props.getInputRef(inputRef);
-   });
-
+const TextInput = React.forwardRef((props, ref) => {
    const {
       type,
       disabled,
@@ -41,37 +34,16 @@ const TextInput = props => {
       onChange,
       lineNumber,
       className,
-      getInputRef,
       ...others
    } = props;
-
    const classes = useStyles(props);
-
    const combinedClasses = {
       root: classnames(classes.root, className)
    };
-
-   return (
-      lineNumber < 2 ?
-         <input
-            ref={inputRef}
-            spellCheck={false}
-            onChange={onChange}
-            className={combinedClasses.root}
-            disabled={disabled}
-            type={type}
-            value={value}
-            {...others} /> :
-         <textarea
-            ref={inputRef}
-            spellCheck={false}
-            onChange={onChange}
-            className={combinedClasses.root}
-            disabled={disabled}
-            value={value}
-            {...others} />
-   );
-};
+   return lineNumber < 2 ?
+      <input ref={ref} spellCheck={false} onChange={onChange} className={combinedClasses.root} disabled={disabled} type={type} value={value} {...others} /> :
+      <textarea ref={ref} spellCheck={false} onChange={onChange} className={combinedClasses.root} disabled={disabled} value={value} {...others} />;
+});
 
 TextInput.propTypes = {
    type: PropTypes.oneOf(['password', 'text']),
@@ -80,14 +52,12 @@ TextInput.propTypes = {
    value: PropTypes.string.isRequired,
    onChange: PropTypes.func.isRequired,
    lineNumber: PropTypes.number,
-   getInputRef: PropTypes.func,
 };
 
 TextInput.defaultProps = {
    type: 'text',
    disabled: false,
    lineNumber: 1,
-   getInputRef: () => { },
 };
 
 export { TextInput };

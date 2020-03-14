@@ -1,2 +1,2 @@
-import { createTheme } from './theme';
-export { createTheme };
+import { createTheme, breakpoints } from './theme';
+export { createTheme, breakpoints };

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import render from './render';
 import Spinner from '../components/Spinner';
 import Panel from '../components/Panel';
 import { propValues } from '../components/Spinner/Spinner';
@@ -7,8 +6,8 @@ import { createUseStyles } from 'react-jss';
 import Settings from './Settings';
 
 const useStyles = createUseStyles({
-   spinnerContainer: {
-      margin: 20,
+   listContainer: {
+      margin: 15,
    }
 });
 
@@ -51,4 +50,4 @@ const Demo = () => {
    );
 };
 
-export default () => render(<Demo />, 'app');
+export default { name: 'Spinner', component: Demo };
