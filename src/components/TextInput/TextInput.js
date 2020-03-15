@@ -37,12 +37,24 @@ const TextInput = React.forwardRef((props, ref) => {
       ...others
    } = props;
    const classes = useStyles(props);
-   const combinedClasses = {
-      root: classnames(classes.root, className)
-   };
+   
    return lineNumber < 2 ?
-      <input ref={ref} spellCheck={false} onChange={onChange} className={combinedClasses.root} disabled={disabled} type={type} value={value} {...others} /> :
-      <textarea ref={ref} spellCheck={false} onChange={onChange} className={combinedClasses.root} disabled={disabled} value={value} {...others} />;
+      <input
+         ref={ref}
+         spellCheck={false}
+         onChange={onChange}
+         className={classnames(classes.root, className)}
+         disabled={disabled}
+         type={type}
+         value={value}
+         {...others} /> :
+      <textarea
+         ref={ref}
+         spellCheck={false}
+         onChange={onChange}
+         className={classnames(classes.root, className)}
+         disabled={disabled}
+         value={value} {...others} />;
 });
 
 TextInput.propTypes = {

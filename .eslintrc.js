@@ -8,7 +8,7 @@ module.exports = {
       'ecmaVersion': 2018,
    },
    'rules': {
-      "max-len": ["error", { "code": 160, "tabWidth": 4, "comments": 160 }],
+      "max-len": ["error", { "code": 152, "tabWidth": 4, "comments": 160 }],
       "semi": "error",
       "eqeqeq": "error",
       "curly": ["error", "multi"],

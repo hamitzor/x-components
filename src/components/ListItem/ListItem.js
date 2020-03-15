@@ -17,17 +17,17 @@ const useStyles = createUseStyles(theme => ({
         }
     },
     selected: {
-        backgroundColor: Color(theme.backgroundColors.panel)[theme.decide('lighten', 'darken')](theme.decide(0.4, 0.15)).toString(),
+        backgroundColor: Color(theme.backgroundColors.panel)[theme.darkOrLight('lighten', 'darken')](theme.darkOrLight(0.4, 0.15)).toString(),
     },
     hoverable: {
         '&:hover': {
-            backgroundColor: Color(theme.backgroundColors.panel)[theme.decide('lighten', 'darken')](theme.decide(0.14, 0.1)).toString()
+            backgroundColor: Color(theme.backgroundColors.panel)[theme.darkOrLight('lighten', 'darken')](theme.darkOrLight(0.14, 0.1)).toString()
         }
     },
     disabled: {
         pointerEvents: 'none',
-        color: Color(theme.textColors.normal)[theme.decide('darken', 'lighten')](theme.decide(0.5, 1.6)).toString(),
-        backgroundColor: Color(theme.backgroundColors.panel)[theme.decide('lighten', 'darken')](theme.decide(0.08, 0.07)).toString()
+        color: Color(theme.textColors.normal)[theme.darkOrLight('darken', 'lighten')](theme.darkOrLight(0.5, 1.6)).toString(),
+        backgroundColor: Color(theme.backgroundColors.panel)[theme.darkOrLight('lighten', 'darken')](theme.darkOrLight(0.08, 0.07)).toString()
     }
 }));
 
@@ -41,18 +41,23 @@ const ListItem = React.forwardRef((props, ref) => {
         disabled,
         ...others
     } = props;
+    const classes = useStyles(props);
 
     delete others.itemId;
 
-    const classes = useStyles(props),
-        combinedClasses = {
-            listItem: classnames(classes.listItem, {
+    return (
+        <li
+            ref={ref}
+            className={classnames(classes.listItem, {
                 [classes.hoverable]: hoverable,
                 [classes.selected]: selected,
                 [classes.disabled]: disabled,
-            }, className)
-        };
-    return <li ref={ref} className={combinedClasses.listItem} onClick={onSelect} {...others}>{children}</li>;
+            }, className)}
+            onClick={onSelect}
+            {...others}>
+            {children}
+        </li>
+    );
 });
 
 ListItem.propTypes = {

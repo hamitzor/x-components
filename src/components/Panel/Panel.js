@@ -10,18 +10,15 @@ const useStyles = createUseStyles(theme => ({
       boxShadow: ({ shadow }) => shadow ? theme.shadows[1] : theme.shadows[0],
       borderRadius: ({ rounded }) => rounded ? 4 : 0,
       height: ({ fullHeight }) => fullHeight && '100%',
-      overflow: 'hidden'
    }
 }));
 
 const Panel = React.forwardRef((props, ref) => {
-   const { children, className, padding, shadow, rounded, fullHeight, ...others } = props,
-      classes = useStyles(props),
-      combinedClasses = {
-         panel: classnames(classes.panel, className),
-      };
+   const { children, className, padding, shadow, rounded, fullHeight, ...others } = props;
+   const classes = useStyles(props);
+   
    return (
-      <div ref={ref} className={combinedClasses.panel} {...others}>
+      <div ref={ref} className={classnames(classes.panel, className)} {...others}>
          {children}
       </div>
    );

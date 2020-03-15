@@ -9,6 +9,7 @@ import Color from 'color';
 const propValues = {
    color: ['grey', 'darkgrey', 'primary', 'secondary', 'success', 'warning', 'error'],
    type: ['default', 'filled', 'transparent'],
+   justify: ['center', 'flex-start', 'flex-end', 'space-between', 'space-around']
 };
 
 const useStyles = createUseStyles(theme => ({
@@ -18,7 +19,7 @@ const useStyles = createUseStyles(theme => ({
       padding: 0,
       border: 'none',
       fontFamily: 'inherit',
-      fontSize: theme.fontSizes.normal,
+      fontSize: 'inherit',
       transition: theme.transition(['background', 'color']),
       fontWeight: 600,
       borderRadius: ({ round, rounded }) => round ? '50%' : rounded ? theme.fontSizes.normal / 3.5 : 0,
@@ -34,7 +35,7 @@ const useStyles = createUseStyles(theme => ({
       height: '100%',
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: ({ justify }) => justify,
       padding: ({ iconButton }) => iconButton ? '8px 8px' : '8px 15px',
    },
    ...propValues.color.reduce((acc, color) => ({
@@ -45,28 +46,31 @@ const useStyles = createUseStyles(theme => ({
             const style = { '&:hover': {}, '&:active': {} };
             switch (type) {
                case 'transparent':
-                  style.color = theme.colors[color][status === 'enabled' ? theme.decide('light', 'normal') : 'disabled'];
+                  style.color = theme.colors[color].disabled;
                   style.backgroundColor = 'transparent';
                   if (status === 'enabled') {
+                     style.color = theme.colors[color][theme.darkOrLight('light', 'normal')];
                      style['&:hover'].backgroundColor = Color(style.color).alpha(0.2).string();
                      style['&:active'].backgroundColor = Color(style.color).alpha(0.35).string();
                   }
                   break;
                case 'filled':
-                  style.backgroundColor = theme.colors[color][status === 'enabled' ? theme.decide('light', 'normal') : 'disabled'];
+                  style.backgroundColor = theme.colors[color].disabled;
                   style.color = theme.textColors[Color(theme.colors[color].dark).isLight() ? 'normal' : 'reversed'];
                   if (status === 'enabled') {
-                     style['&:hover'].backgroundColor = theme.colors[color][theme.decide('normal', 'dark')];
-                     style['&:active'].backgroundColor = theme.colors[color][theme.decide('lighter', 'light')];
+                     style.backgroundColor = theme.colors[color][theme.darkOrLight('light', 'normal')];
+                     style['&:hover'].backgroundColor = theme.colors[color][theme.darkOrLight('normal', 'dark')];
+                     style['&:active'].backgroundColor = theme.colors[color][theme.darkOrLight('lighter', 'light')];
                   }
                   break;
                default:
-                  style.color = theme.colors[color][status === 'enabled' ? theme.decide('lighter', 'normal') : 'disabled'];
-                  style.backgroundColor = theme.colors[theme.decide('darkgrey', 'lightgrey')]
-                  [status === 'enabled' ? theme.decide('darker', 'light') : 'disabled'];
+                  style.color = theme.colors[color].disabled;
+                  style.backgroundColor = theme.colors[theme.darkOrLight('darkgrey', 'lightgrey')]
+                  [status === 'enabled' ? theme.darkOrLight('darker', 'light') : 'disabled'];
                   if (status === 'enabled') {
-                     style['&:hover'].backgroundColor = theme.colors[theme.decide('darkgrey', 'lightgrey')][theme.decide('dark', 'normal')];
-                     style['&:active'].backgroundColor = theme.colors[theme.decide('darkgrey', 'lightgrey')][theme.decide('normal', 'light')];
+                     style.color = theme.colors[color][theme.darkOrLight('lighter', 'normal')];
+                     style['&:hover'].backgroundColor = theme.colors[theme.darkOrLight('darkgrey', 'lightgrey')][theme.darkOrLight('dark', 'normal')];
+                     style['&:active'].backgroundColor = theme.colors[theme.darkOrLight('darkgrey', 'lightgrey')][theme.darkOrLight('normal', 'light')];
                   }
             }
             return {
@@ -79,14 +83,12 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const Button = React.forwardRef((props, ref) => {
-   const { children, color, type, rounded, round, disabled, fullWidth, iconButton, className, ...others } = props;
+   const { children, color, type, rounded, round, disabled, fullWidth, iconButton, className, contentClassName, ...others } = props;
    const classes = useStyles(props);
-   const combinedClasses = {
-      button: classnames(className, classes.button, classes[`${type}${color}${disabled ? 'disabled' : 'enabled'}`]),
-   };
+   
    return (
-      <button ref={ref} className={combinedClasses.button} {...others}>
-         <div className={classes.content}>
+      <button ref={ref} className={classnames(className, classes.button, classes[`${type}${color}${disabled ? 'disabled' : 'enabled'}`])} {...others}>
+         <div className={classnames(classes.content, contentClassName)}>
             {children}
          </div>
       </button>
@@ -102,7 +104,9 @@ Button.propTypes = {
    round: PropTypes.bool,
    disabled: PropTypes.bool,
    fullWidth: PropTypes.bool,
-   iconButton: PropTypes.bool
+   iconButton: PropTypes.bool,
+   justify: PropTypes.oneOf(propValues.justify),
+   contentClassName: PropTypes.string
 };
 
 Button.defaultProps = {
@@ -113,7 +117,9 @@ Button.defaultProps = {
    round: false,
    disabled: false,
    fullWidth: false,
-   iconButton: false
+   iconButton: false,
+   justify: 'center',
+   contentClassName: ''
 };
 
 export { Button, propValues };

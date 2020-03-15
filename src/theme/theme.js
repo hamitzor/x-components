@@ -96,7 +96,7 @@ const createTheme = (type, options) => {
       h4: 23,
       h5: 18,
       h6: 16,
-      small: 10,
+      small: 11,
       normal: 14,
       large: 20
    };
@@ -149,7 +149,7 @@ const createTheme = (type, options) => {
       between: (min, max) => `${min(min)} and ${max(max)}`,
       transition: (properties = ['all'], duration = animationDuration) => properties.map(property => `${property} ${duration}ms`).join(','),
       transform: value => ({ '-ms-transform': value, '-webkit-transform': value, transform: value }),
-      decide: (a, b) => type === 'dark' ? a : b
+      darkOrLight: (a, b) => type === 'dark' ? a : b
    };
 };
 

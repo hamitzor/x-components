@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import { createUseStyles } from 'react-jss';
 
 const propValues = {
@@ -8,7 +9,7 @@ const propValues = {
 
 const useStyles = createUseStyles(theme => ({
    icon: {
-      color: ({ color }) => color !== 'inherit' ? theme.colors[color][theme.decide('light', 'normal')] : 'inherit',
+      color: ({ color }) => color !== 'inherit' ? theme.colors[color][theme.darkOrLight('light', 'normal')] : 'inherit',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -20,8 +21,9 @@ const useStyles = createUseStyles(theme => ({
 const Icon = React.forwardRef((props, ref) => {
    const { children, leftGap, rightGap, color, ...others } = props;
    const classes = useStyles(props);
+   
    return (
-      <div ref={ref} className={classes.icon} {...others}>
+      <div ref={ref} className={classnames(classes.icon)} {...others}>
          {children}
       </div>
    );

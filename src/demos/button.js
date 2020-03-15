@@ -19,7 +19,6 @@ const useStyles = createUseStyles({
 });
 
 const Demo = () => {
-
    const [color, setColor] = useState('primary'),
       [type, setType] = useState('filled'),
       [rounded, setRounded] = useState(true),
@@ -27,7 +26,7 @@ const Demo = () => {
       [disabled, setDisabled] = useState(false),
       [fullWidth, setFullWidth] = useState(false),
       [buttonText, setButtonText] = useState('Login'),
-      [buttonFontSize, setButtonFontSize] = useState(14),
+      [justify, setJustify] = useState('center'),
       classes = useStyles(),
       buttonProps = {
          color,
@@ -36,7 +35,7 @@ const Demo = () => {
          round,
          disabled,
          fullWidth,
-         style: { fontSize: buttonFontSize }
+         justify,
       };
 
    return (
@@ -50,9 +49,9 @@ const Demo = () => {
                disabled: setDisabled,
                fullWidth: setFullWidth,
                buttonText: setButtonText,
-               buttonFontSize: setButtonFontSize
+               justify: setJustify
             }}
-            values={{ color, type, rounded, round, disabled, fullWidth, buttonText, buttonFontSize }}
+            values={{ color, type, rounded, round, disabled, fullWidth, buttonText, justify }}
             settingsData={{
                props: [
                   { name: 'color', type: 'select', values: propValues.color },
@@ -60,11 +59,11 @@ const Demo = () => {
                   { name: 'rounded', type: 'bool' },
                   { name: 'round', type: 'bool' },
                   { name: 'disabled', type: 'bool' },
-                  { name: 'fullWidth', type: 'bool' }
+                  { name: 'fullWidth', type: 'bool' },
+                  { name: 'justify', type: 'select', values: propValues.justify }
                ],
                variables: [
                   { name: 'buttonText', type: 'text' },
-                  { name: 'buttonFontSize', type: 'number' }
                ]
             }} />
          <Panel
@@ -80,8 +79,7 @@ const Demo = () => {
                {buttonText}
                <Icon
                   leftGap>
-                  <MdLock
-                     style={{ fontSize: buttonFontSize }} />
+                  <MdLock />
                </Icon>
             </Button>
             <Button
@@ -89,8 +87,7 @@ const Demo = () => {
                {...buttonProps}>
                <Icon
                   rightGap>
-                  <MdLock
-                     style={{ fontSize: buttonFontSize }} />
+                  <MdLock />
                </Icon>
                {buttonText}
             </Button>
@@ -99,14 +96,12 @@ const Demo = () => {
                {...buttonProps}>
                <Icon
                   rightGap>
-                  <MdLock
-                     style={{ fontSize: buttonFontSize }} />
+                  <MdLock />
                </Icon>
                {buttonText}
                <Icon
                   leftGap>
-                  <MdLock
-                     style={{ fontSize: buttonFontSize }} />
+                  <MdLock />
                </Icon>
             </Button>
             <Button
@@ -114,8 +109,7 @@ const Demo = () => {
                className={classes.button}
                {...buttonProps}>
                <Icon>
-                  <MdAccountBalance
-                     style={{ fontSize: buttonFontSize }} />
+                  <MdAccountBalance />
                </Icon>
             </Button>
          </Panel>

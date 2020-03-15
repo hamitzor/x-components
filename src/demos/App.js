@@ -17,8 +17,9 @@ import list from './list';
 import flex from './flex';
 import inputExtension from './input-extension';
 import tooltip from './tooltip';
+import select from './select';
 
-const demos = [button, flex, icon, inputExtension, list, spinner, textInput, tooltip];
+const demos = [button, flex, icon, inputExtension, list, select, spinner, textInput, tooltip];
 
 const useStyles = createUseStyles(theme => ({
    themeSwitch: {

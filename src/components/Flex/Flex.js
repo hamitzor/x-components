@@ -88,27 +88,30 @@ const Flex = React.forwardRef((props, ref) => {
         fullWidth,
         ...others
     } = props;
-
-    const classes = useStyles(), combinedClasses = {
-        root: classnames(
-            classes[`${direction}direction`],
-            classes[`${wrap}wrap`],
-            classes[`${justify}justify`],
-            classes[`${alignItems}alignItems`],
-            classes[`${alignContent}alignContent`], {
-            [classes.container]: container,
-            [classes[`${xs}xs`]]: xs && item,
-            [classes[`${sm}sm`]]: sm && item,
-            [classes[`${md}md`]]: md && item,
-            [classes[`${lg}lg`]]: lg && item,
-            [classes[`${xl}xl`]]: xl && item,
-            [classes[`${xxl}xxl`]]: xxl && item,
-            [classes.fullWidth]: fullWidth || (container && !item),
-            [classes.fullHeight]: fullHeight
-        }, className)
-    };
+    const classes = useStyles();
+    
     return (
-        <div ref={ref} className={combinedClasses.root} {...others}>
+        <div
+            ref={ref}
+            className={classnames(
+                classes[`${direction}direction`],
+                classes[`${wrap}wrap`],
+                classes[`${justify}justify`],
+                classes[`${alignItems}alignItems`],
+                classes[`${alignContent}alignContent`],
+                {
+                    [classes.container]: container,
+                    [classes[`${xs}xs`]]: xs && item,
+                    [classes[`${sm}sm`]]: sm && item,
+                    [classes[`${md}md`]]: md && item,
+                    [classes[`${lg}lg`]]: lg && item,
+                    [classes[`${xl}xl`]]: xl && item,
+                    [classes[`${xxl}xxl`]]: xxl && item,
+                    [classes.fullWidth]: fullWidth || (container && !item),
+                    [classes.fullHeight]: fullHeight
+                },
+                className)}
+            {...others}>
             {children}
         </div>
     );

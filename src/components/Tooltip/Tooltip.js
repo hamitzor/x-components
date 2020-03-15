@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { CSSTransition } from 'react-transition-group';
 import classnames from 'classnames';
 
-
 const propValues = {
     position: ['top', 'left', 'bottom', 'right']
 };
@@ -12,7 +11,7 @@ const propValues = {
 const useStyles = createUseStyles(theme => ({
     tooltip: {
         fontSize: theme.fontSizes.small,
-        color: theme.textColors[theme.decide('normal', 'reversed')],
+        color: theme.textColors[theme.darkOrLight('normal', 'reversed')],
         position: 'absolute',
         top: ({ top }) => top,
         left: ({ left }) => left,
@@ -38,7 +37,6 @@ const useStyles = createUseStyles(theme => ({
     },
 }));
 
-
 const Tooltip = React.forwardRef((props, ref) => {
     const {
         children,
@@ -49,16 +47,15 @@ const Tooltip = React.forwardRef((props, ref) => {
         ...others
     } = props;
 
-    const [ready, setReady] = useState(false),
-        [top, setTop] = useState(0),
-        [left, setLeft] = useState(0),
-        [visible, setVisible] = useState(false),
-        [tooltipWidth, setTooltipWidth] = useState(0),
-        [tooltipHeight, setTooltipHeight] = useState(0),
-        anchorRef = React.createRef(),
-        classes = useStyles({ top, left });
-
-    let tooltipRef = React.createRef();
+    const [ready, setReady] = useState(false);
+    const [top, setTop] = useState(0);
+    const [left, setLeft] = useState(0);
+    const [visible, setVisible] = useState(false);
+    const [tooltipWidth, setTooltipWidth] = useState(0);
+    const [tooltipHeight, setTooltipHeight] = useState(0);
+    const anchorRef = React.createRef();
+    const tooltipRef = React.createRef();
+    const classes = useStyles({ top, left });
 
     useEffect(() => {
         anchorRef.current.addEventListener('mouseenter', () => {
@@ -90,16 +87,16 @@ const Tooltip = React.forwardRef((props, ref) => {
         setLeft(left);
         setReady(true);
     }, [props.children]);
-    const combinedClasses = {
-        tooltip: classnames(classes.tooltip, className),
-    };
-    const component = (
-        <div className={combinedClasses.tooltip}
+
+    const tooltip = (
+        <div
+            className={classnames(classes.tooltip, className)}
             ref={el => {
                 tooltipRef.current = el;
                 if (ref)
                     ref.current = el;
-            }} {...others} >
+            }}
+            {...others} >
             {text}
         </div>
     );
@@ -108,10 +105,13 @@ const Tooltip = React.forwardRef((props, ref) => {
         <React.Fragment>
             {React.cloneElement(props.children, { ref: anchorRef })}
             {ready ? (animated ?
-                <CSSTransition in={visible} timeout={100} unmountOnExit
+                <CSSTransition
+                    in={visible}
+                    timeout={100}
+                    unmountOnExit
                     classNames={{ enter: classes.enter, enterActive: classes.enterActive, exit: classes.exit, exitActive: classes.exitActive }}>
-                    {component}
-                </CSSTransition> : visible && component) : component}
+                    {tooltip}
+                </CSSTransition> : visible && tooltip) : tooltip}
         </React.Fragment>
     );
 });

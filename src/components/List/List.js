@@ -6,7 +6,7 @@ import ListItem from '../ListItem';
 import Panel from '../Panel';
 import { createUseStyles } from 'react-jss';
 
-const useStyles = createUseStyles(theme => ({
+const useStyles = createUseStyles({
     list: {
         display: 'flex'
     },
@@ -17,32 +17,31 @@ const useStyles = createUseStyles(theme => ({
         overflow: 'hidden',
         width: '100%'
     }
-}));
+});
 
 const List = React.forwardRef((props, ref) => {
     const {
-        className,
         children,
+        className,
         hoverable,
         rounded,
         padding,
         shadow,
+        onSelect,
         ...others
     } = props;
-
     delete others.activeItemId;
-
-    const classes = useStyles(),
-        combinedClasses = {
-            list: classnames(classes.list, className)
-        };
+    const classes = useStyles();
+    
     return (
-        <Panel ref={ref} className={combinedClasses.list} rounded={rounded} padding={padding} shadow={shadow}  {...others}>
+        <Panel ref={ref} className={classnames(classes.list, className)} rounded={rounded} padding={padding} shadow={shadow}  {...others}>
             <ul className={classes.ul}>
-                {React.Children.map(children, (child, i) => child &&
-                    <child.type {...child.props} hoverable={hoverable} onSelect={e => props.onSelect && props.onSelect(child.props.itemId, i, e)}
-                        selected={child.props.itemId === props.activeItemId} key={i} />
-                )}
+                {React.Children.map(children, (child, i) => child && React.cloneElement(child, {
+                    hoverable: hoverable,
+                    onSelect: e => onSelect && onSelect(child.props.itemId, i, e),
+                    selected: child.props.itemId === props.activeItemId,
+                    key: i
+                }))}
             </ul>
         </Panel>
     );

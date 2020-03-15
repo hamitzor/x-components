@@ -118,15 +118,15 @@ const useStyles = createUseStyles(theme => ({
          justifyContent: 'center',
          padding: '5px 15px',
          '&.header': {
-            backgroundColor: theme.colors.primary[theme.decide('light', 'normal')],
+            backgroundColor: theme.colors.primary[theme.darkOrLight('light', 'normal')],
             color: theme.textColors[Color(theme.colors.primary.dark).isLight() ? 'normal' : 'reversed'],
             fontWeight: 600,
          },
          '&:nth-child(2n).prop': {
-            backgroundColor: theme.colors[theme.decide('darkgrey', 'lightgrey')][theme.decide('dark', 'disabled')],
+            backgroundColor: theme.colors[theme.darkOrLight('darkgrey', 'lightgrey')][theme.darkOrLight('dark', 'disabled')],
          },
          '&:nth-child(2n+1).prop': {
-            backgroundColor: theme.colors[theme.decide('darkgrey', 'lightgrey')][theme.decide('normal', 'light')],
+            backgroundColor: theme.colors[theme.darkOrLight('darkgrey', 'lightgrey')][theme.darkOrLight('normal', 'light')],
          },
          '& div': {
             width: '50%'

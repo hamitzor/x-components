@@ -14,9 +14,9 @@ const useStyles = createUseStyles(theme => ({
    },
    spinner: {
       animation: '$spin 1s linear infinite',
-      border: `2px solid ${theme.colors[theme.decide('grey', 'lightgrey')].normal}`,
+      border: `2px solid ${theme.colors[theme.darkOrLight('grey', 'lightgrey')].normal}`,
       borderRadius: '50%',
-      borderTopColor: ({ color }) => theme.colors[color][theme.decide('light', 'normal')],
+      borderTopColor: ({ color }) => theme.colors[color][theme.darkOrLight('light', 'normal')],
       width: '100%',
       height: '100%',
       minWidth: '10px',
@@ -42,12 +42,17 @@ const Spinner = React.forwardRef((props, ref) => {
    const { color, visible, animate, ...others } = props;
    const theme = useTheme();
    const classes = useStyles({ ...props, theme });
-   const component = <div ref={ref} className={classes.spinner} {...others} />;
+   
+   const spinner = <div ref={ref} className={classes.spinner} {...others} />;
+
    return animate ?
-      <CSSTransition in={visible} timeout={theme.animationDuration} unmountOnExit
+      <CSSTransition
+         in={visible}
+         timeout={theme.animationDuration}
+         unmountOnExit
          classNames={{ enter: classes.enter, enterActive: classes.enterActive, exit: classes.exit, exitActive: classes.exitActive }}>
-         {component}
-      </CSSTransition> : visible && component;
+         {spinner}
+      </CSSTransition> : visible && spinner;
 });
 
 Spinner.propTypes = {
