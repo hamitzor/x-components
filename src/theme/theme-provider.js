@@ -27,20 +27,16 @@ const useStyles = createUseStyles(theme => ({
    }
 }));
 
-const Root = ({ children }) => (
-   <div
-      className={useStyles().root}>
+const Root = ({ children }) =>
+   <div className={useStyles().root}>
       {children}
-   </div>
-);
+   </div>;
 
-const ThemeProvider = ({ theme, children }) => (
-   <ReactJssThemeProvider
-      theme={theme}>
+const ThemeProvider = ({ theme, children }) =>
+   <ReactJssThemeProvider theme={theme}>
       <Root>
          {children}
       </Root>
-   </ReactJssThemeProvider>
-);
+   </ReactJssThemeProvider>;
 
 export default ThemeProvider;

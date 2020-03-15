@@ -53,31 +53,37 @@ const useStyles = createUseStyles(theme => ({
    }
 }));
 
-
 const App = () => {
    const [appTheme, setAppTheme] = useState(createTheme('light'));
    const [appThemeName, setAppThemeName] = useState('light');
    const classes = useStyles(null, appTheme);
+
    return (
       <ThemeProvider theme={appTheme}>
-         <div className={`${classes.themeSwitch} ${appThemeName}`} onClick={() => {
-            if (appThemeName === 'dark') {
-               setAppTheme(createTheme('light'));
-               setAppThemeName('light');
-            }
-            else {
-               setAppTheme(createTheme('dark'));
-               setAppThemeName('dark');
-            }
-         }}>{`Switch to ${appThemeName === 'dark' ? 'light' : 'dark'} theme`}</div>
+         <div
+            className={`${classes.themeSwitch} ${appThemeName}`}
+            onClick={() => {
+               if (appThemeName === 'dark') {
+                  setAppTheme(createTheme('light'));
+                  setAppThemeName('light');
+               }
+               else {
+                  setAppTheme(createTheme('dark'));
+                  setAppThemeName('dark');
+               }
+            }}>
+            {`Switch to ${appThemeName === 'dark' ? 'light' : 'dark'} theme`}
+         </div>
          <BrowserRouter>
             <div className={classes.container}>
                <Panel className={classes.navigation}>
-                  {demos.map((demo, i) => (
+                  {demos.map((demo, i) => 
                      <div key={i}>
-                        <Link to={`/${demo.name}`} className={classes.link} style={{ color: appTheme.textColors.normal }}>{demo.name}</Link>
+                        <Link to={`/${demo.name}`} className={classes.link} style={{ color: appTheme.textColors.normal }}>
+                           {demo.name}
+                        </Link>
                      </div>
-                  ))}
+                  )}
                </Panel>
                <Switch>
                   {demos.map(demo =>

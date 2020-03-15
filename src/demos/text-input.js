@@ -2,28 +2,18 @@ import React, { useState } from 'react';
 import Input from '../components/Input';
 import Panel from '../components/Panel';
 import { propValues } from '../components/Input/Input';
-import { createUseStyles } from 'react-jss';
 import Settings from './Settings';
 import TextInput from '../components/TextInput';
 
-const useStyles = createUseStyles({
-   inputContainer: {
-      '& .XInput': {
-         marginRight: 40,
-         marginBottom: 40
-      }
-   }
-});
 const Demo = () => {
-   const [simple, setSimple] = useState(false),
-      [color, setColor] = useState('primary'),
-      [fullWidth, setFullWidth] = useState(false),
-      [desc, setDesc] = useState('Activities you enjoy the most'),
-      [error, setError] = useState(false),
-      [errorMessage, setErrorMessage] = useState(''),
-      [textValue, setTextValue] = useState(''),
-      [disabled, setDisabled] = useState(false),
-      classes = useStyles();
+   const [simple, setSimple] = useState(false);
+   const [color, setColor] = useState('primary');
+   const [fullWidth, setFullWidth] = useState(false);
+   const [desc, setDesc] = useState('Activities you enjoy the most');
+   const [error, setError] = useState(false);
+   const [errorMessage, setErrorMessage] = useState('');
+   const [textValue, setTextValue] = useState('');
+   const [disabled, setDisabled] = useState(false);
 
    return (
       <div>
@@ -50,21 +40,20 @@ const Demo = () => {
                ],
                variables: []
             }} />
-         <Panel
-            className={classes.inputContainer}>
-               <Input
-                  simple={simple}
-                  color={color}
-                  fullWidth={fullWidth}
-                  desc={desc}
-                  error={error}
-                  errorMessage={errorMessage}
-                  label="Hobbies">
-                  <TextInput
-                     disabled={disabled}
-                     value={textValue}
-                     onChange={e => setTextValue(e.target.value)} />
-               </Input>
+         <Panel>
+            <Input
+               simple={simple}
+               color={color}
+               fullWidth={fullWidth}
+               desc={desc}
+               error={error}
+               errorMessage={errorMessage}
+               label="Hobbies">
+               <TextInput
+                  disabled={disabled}
+                  value={textValue}
+                  onChange={e => setTextValue(e.target.value)} />
+            </Input>
             <Input
                simple={simple}
                color={color}

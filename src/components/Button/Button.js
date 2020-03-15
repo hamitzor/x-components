@@ -22,7 +22,7 @@ const useStyles = createUseStyles(theme => ({
       fontSize: 'inherit',
       transition: theme.transition(['background', 'color']),
       fontWeight: 600,
-      borderRadius: ({ round, rounded }) => round ? '50%' : rounded ? theme.fontSizes.normal / 3.5 : 0,
+      borderRadius: ({ round, rounded }) => round ? '50%' : rounded ? theme.fontSizes.normal / 4 : 0,
       boxShadow: ({ type }) => type === 'transparent' ? 'none' : (theme.type === 'dark' ? 'none' : theme.shadows[1]),
       cursor: ({ disabled }) => disabled ? 'default' : 'pointer',
       width: ({ fullWidth }) => fullWidth && '100%',

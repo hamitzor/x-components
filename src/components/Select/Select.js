@@ -197,20 +197,20 @@ const Select = React.forwardRef((props, ref) => {
         menuRef.current.scrollTop = menuItemHeights[selectedIndex];
     }, [open]);
 
-    const options = [<option key='' value=''>None</option>, ...React.Children.map(children, (child, i) => (
+    const options = [<option key='' value=''>None</option>, ...React.Children.map(children, (child, i) =>
         <option key={i} value={`${child.props.value}`}>{child.props.children}</option>
-    ))];
+    )];
 
     const menu = (
         <div
             ref={menuRef} className={classes.menu}
             style={{ maxHeight: menuItemHeights[maxOption] ? menuItemHeights[maxOption] + theme.unit * 4 : 'none' }}>
             <List shadow={false} activeItemId={value} radius={0} onSelect={(key, i) => setOptionClick({ key, i })}>
-                {React.Children.map(options, (child, i) => (
+                {React.Children.map(options, (child, i) => 
                     <ListItem className={classes.item} key={i} itemId={`${child.props.value}`}>
                         {child.props.children}
                     </ListItem>
-                ))}
+                )}
             </List>
         </div>
     );

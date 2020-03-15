@@ -12,12 +12,12 @@ const useStyles = createUseStyles({
 });
 
 const Demo = () => {
-   const [color, setColor] = useState('primary'),
-      [visible, setVisible] = useState(true),
-      [animate, setAnimate] = useState(true),
-      [size, setSize] = useState(100);
-
+   const [color, setColor] = useState('primary');
+   const [visible, setVisible] = useState(true);
+   const [animate, setAnimate] = useState(true);
+   const [size, setSize] = useState(100);
    const classes = useStyles();
+   
    return (
       <div>
          <Settings
@@ -38,13 +38,8 @@ const Demo = () => {
                   { name: 'size', type: 'number' }
                ]
             }} />
-         <Panel
-            className={classes.spinnerContainer}
-            style={{ width: size, height: size }}>
-            <Spinner
-               color={color}
-               visible={visible}
-               animate={animate} />
+         <Panel className={classes.spinnerContainer} style={{ width: size, height: size }}>
+            <Spinner color={color} visible={visible} animate={animate} />
          </Panel>
       </div>
    );

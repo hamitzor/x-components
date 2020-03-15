@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from '../components/Button';
 import Panel from '../components/Panel';
 import Tooltip from '../components/Tooltip';
@@ -16,17 +16,16 @@ const useStyles = createUseStyles({
 });
 const Demo = () => {
    const classes = useStyles();
-
    const tooltipRef = React.createRef();
 
    return (
       <div>
          <Panel className={classes.container}>
-            {['bottom', 'top', 'left', 'right'].map(position => (
+            {['bottom', 'top', 'left', 'right'].map(position => 
                <Tooltip ref={tooltipRef} key={position} position={position} text='Cancel this operation'>
                   <Button className={classes.button} color="error" type="default">{position}</Button>
                </Tooltip>
-            ))}
+            )}
          </Panel>
       </div >
    );

@@ -3,7 +3,6 @@ import Input from '../components/Input';
 import Panel from '../components/Panel';
 import Tooltip from '../components/Tooltip';
 import { propValues } from '../components/Input/Input';
-import { createUseStyles } from 'react-jss';
 import Settings from './Settings';
 import TextInput from '../components/TextInput';
 import InputExtension from '../components/InputExtension';
@@ -12,24 +11,15 @@ import Button from '../components/Button';
 import { FaChessKnight, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { MdVpnKey } from 'react-icons/md';
 
-const useStyles = createUseStyles({
-   inputContainer: {
-      '& .XInput': {
-         marginRight: 40,
-         marginBottom: 40
-      }
-   }
-});
 const Demo = () => {
-   const [simple, setSimple] = useState(false),
-      [color, setColor] = useState('primary'),
-      [fullWidth, setFullWidth] = useState(false),
-      [error, setError] = useState(false),
-      [errorMessage, setErrorMessage] = useState(''),
-      [textValue, setTextValue] = useState(''),
-      [disabled, setDisabled] = useState(false),
-      [showPassword, setShowPassword] = useState(false),
-      classes = useStyles();
+   const [simple, setSimple] = useState(false);
+   const [color, setColor] = useState('primary');
+   const [fullWidth, setFullWidth] = useState(false);
+   const [error, setError] = useState(false);
+   const [errorMessage, setErrorMessage] = useState('');
+   const [textValue, setTextValue] = useState('');
+   const [disabled, setDisabled] = useState(false);
+   const [showPassword, setShowPassword] = useState(false);
 
    return (
       <div>
@@ -54,8 +44,7 @@ const Demo = () => {
                ],
                variables: []
             }} />
-         <Panel
-            className={classes.inputContainer}>
+         <Panel>
             <Input
                simple={simple}
                color={color}
@@ -76,13 +65,7 @@ const Demo = () => {
                   onChange={e => setTextValue(e.target.value)} />
                <InputExtension>
                   <Tooltip text="Hide/Show Password">
-                     <Button
-                        onClick={() => setShowPassword(!showPassword)}
-                        color="grey"
-                        round
-                        disabled={disabled}
-                        iconButton
-                        type="transparent">
+                     <Button onClick={() => setShowPassword(!showPassword)} color="grey" round disabled={disabled} iconButton type="transparent">
                         <Icon>
                            {showPassword ? <FaEyeSlash /> : <FaEye />}
                         </Icon>
@@ -103,10 +86,7 @@ const Demo = () => {
                      <FaChessKnight />
                   </Icon>
                </InputExtension>
-               <TextInput
-                  disabled={disabled}
-                  value={textValue}
-                  onChange={e => setTextValue(e.target.value)} />
+               <TextInput disabled={disabled} value={textValue} onChange={e => setTextValue(e.target.value)} />
             </Input>
             <Input
                simple={simple}
@@ -121,11 +101,7 @@ const Demo = () => {
                      <FaChessKnight />
                   </Icon>
                </InputExtension>
-               <TextInput
-                  disabled={disabled}
-                  lineNumber={4}
-                  value={textValue}
-                  onChange={e => setTextValue(e.target.value)} />
+               <TextInput disabled={disabled} lineNumber={4} value={textValue} onChange={e => setTextValue(e.target.value)} />
             </Input>
          </Panel>
       </div>

@@ -32,7 +32,11 @@ const Demo = () => {
             <List style={{ width: 150 }} shadow={shadow} hoverable={hoverable} rounded={rounded} padding={padding} onSelect={setActiveItemId}
                 activeItemId={activeItemId} >
                 {['München', 'Nürnberg', 'Augsburg', 'Regensburg', 'Ingolstadt', 'Würzburg', 'Fürth', 'Erlangen'].map(v =>
-                    <ListItem disabled={v === 'Ingolstadt'} itemId={v} key={v} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <ListItem
+                        disabled={v === 'Ingolstadt'}
+                        itemId={v}
+                        key={v}
+                        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         {v}
                     </ListItem>
                 )}

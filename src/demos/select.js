@@ -2,29 +2,19 @@ import React, { useState } from 'react';
 import Input from '../components/Input';
 import Panel from '../components/Panel';
 import { propValues } from '../components/Input/Input';
-import { createUseStyles } from 'react-jss';
 import Settings from './Settings';
 import Select from '../components/Select';
 
-const useStyles = createUseStyles({
-   inputContainer: {
-      '& .XInput': {
-         marginRight: 40,
-         marginBottom: 40
-      }
-   }
-});
 const Demo = () => {
-   const [simple, setSimple] = useState(false),
-      [color, setColor] = useState('primary'),
-      [fullWidth, setFullWidth] = useState(false),
-      [desc, setDesc] = useState('Die beste Stadt in Bayern'),
-      [error, setError] = useState(false),
-      [errorMessage, setErrorMessage] = useState(''),
-      [selectValue, setSelectValue] = useState(''),
-      [disabled, setDisabled] = useState(false),
-      [maxOption, setMaxOption] = useState(7),
-      classes = useStyles();
+   const [simple, setSimple] = useState(false);
+   const [color, setColor] = useState('primary');
+   const [fullWidth, setFullWidth] = useState(false);
+   const [desc, setDesc] = useState('Die beste Stadt in Bayern');
+   const [error, setError] = useState(false);
+   const [errorMessage, setErrorMessage] = useState('');
+   const [selectValue, setSelectValue] = useState('');
+   const [disabled, setDisabled] = useState(false);
+   const [maxOption, setMaxOption] = useState(7);
 
    return (
       <div>
@@ -53,8 +43,7 @@ const Demo = () => {
                ],
                variables: []
             }} />
-         <Panel
-            className={classes.inputContainer}>
+         <Panel>
             <Input
                simple={simple}
                color={color}
@@ -63,8 +52,12 @@ const Demo = () => {
                error={error}
                errorMessage={errorMessage}
                label="Stadt">
-               <Select onChange={e => setSelectValue(e.target.value)} value={selectValue} maxOption={Number(maxOption)} disabled={disabled} >
-                  {['München', 'Nürnberg', 'Augsburg', 'Regensburg', 'Ingolstadt', 'Würzburg', 'Fürth', 'Erlangen', 'Plattling', 'Deggendorf'].map(val =>
+               <Select
+                  onChange={e => setSelectValue(e.target.value)}
+                  value={selectValue}
+                  maxOption={Number(maxOption)}
+                  disabled={disabled} >
+                  {['München', 'Nürnberg', 'Augsburg', 'Regensburg', 'Ingolstadt', 'Würzburg', 'Fürth', 'Erlangen', 'Deggendorf'].map(val =>
                      <option key={val} value={val} >
                         {val}
                      </option>

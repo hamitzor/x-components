@@ -19,24 +19,24 @@ const useStyles = createUseStyles({
 });
 
 const Demo = () => {
-   const [color, setColor] = useState('primary'),
-      [type, setType] = useState('filled'),
-      [rounded, setRounded] = useState(true),
-      [round, setRound] = useState(false),
-      [disabled, setDisabled] = useState(false),
-      [fullWidth, setFullWidth] = useState(false),
-      [buttonText, setButtonText] = useState('Login'),
-      [justify, setJustify] = useState('center'),
-      classes = useStyles(),
-      buttonProps = {
-         color,
-         type,
-         rounded,
-         round,
-         disabled,
-         fullWidth,
-         justify,
-      };
+   const [color, setColor] = useState('primary');
+   const [type, setType] = useState('filled');
+   const [rounded, setRounded] = useState(true);
+   const [round, setRound] = useState(false);
+   const [disabled, setDisabled] = useState(false);
+   const [fullWidth, setFullWidth] = useState(false);
+   const [buttonText, setButtonText] = useState('Login');
+   const [justify, setJustify] = useState('center');
+   const classes = useStyles();
+   const buttonProps = {
+      color,
+      type,
+      rounded,
+      round,
+      disabled,
+      fullWidth,
+      justify,
+   };
 
    return (
       <div>
@@ -66,48 +66,32 @@ const Demo = () => {
                   { name: 'buttonText', type: 'text' },
                ]
             }} />
-         <Panel
-            className={classes.buttonsContainer}>
-            <Button
-               className={classes.button}
-               {...buttonProps}>
+         <Panel className={classes.buttonsContainer}>
+            <Button className={classes.button} {...buttonProps}>
                {buttonText}
             </Button>
-            <Button
-               className={classes.button}
-               {...buttonProps}>
+            <Button className={classes.button} {...buttonProps}>
                {buttonText}
-               <Icon
-                  leftGap>
+               <Icon leftGap>
                   <MdLock />
                </Icon>
             </Button>
-            <Button
-               className={classes.button}
-               {...buttonProps}>
-               <Icon
-                  rightGap>
+            <Button className={classes.button} {...buttonProps}>
+               <Icon rightGap>
                   <MdLock />
                </Icon>
                {buttonText}
             </Button>
-            <Button
-               className={classes.button}
-               {...buttonProps}>
-               <Icon
-                  rightGap>
+            <Button className={classes.button} {...buttonProps}>
+               <Icon rightGap>
                   <MdLock />
                </Icon>
                {buttonText}
-               <Icon
-                  leftGap>
+               <Icon leftGap>
                   <MdLock />
                </Icon>
             </Button>
-            <Button
-               iconButton
-               className={classes.button}
-               {...buttonProps}>
+            <Button iconButton className={classes.button} {...buttonProps}>
                <Icon>
                   <MdAccountBalance />
                </Icon>

@@ -13,9 +13,9 @@ const useStyles = createUseStyles({
    }
 });
 const Demo = () => {
-   const [color, setColor] = useState('primary'),
-      [size, setSize] = useState(100),
-      classes = useStyles();
+   const [color, setColor] = useState('primary');
+   const [size, setSize] = useState(100);
+   const classes = useStyles();
 
    return (
       <div>
@@ -33,12 +33,9 @@ const Demo = () => {
                   { name: 'size', type: 'number' }
                ]
             }} />
-         <Panel
-            className={classes.iconContainer}>
-            <Icon
-               color={color}>
-               <MdNotifications
-                  style={{ fontSize: size }} />
+         <Panel className={classes.iconContainer}>
+            <Icon color={color}>
+               <MdNotifications style={{ fontSize: size }} />
             </Icon>
          </Panel>
       </div>
