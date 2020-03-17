@@ -22,22 +22,39 @@ const useStyles = createUseStyles(theme => ({
       fontSize: 'inherit',
       transition: theme.transition(['background', 'color']),
       fontWeight: 600,
-      borderRadius: ({ round, rounded }) => round ? '50%' : rounded ? theme.fontSizes.normal / 4 : 0,
-      boxShadow: ({ type }) => type === 'transparent' ? 'none' : (theme.type === 'dark' ? 'none' : theme.shadows[1]),
-      cursor: ({ disabled }) => disabled ? 'default' : 'pointer',
-      width: ({ fullWidth }) => fullWidth && '100%',
+      cursor: 'pointer',
       '&:focus': {
          outline: 'none'
       }
+   },
+   round: {
+      borderRadius: '50%'
+   },
+   rounded: {
+      borderRadius: theme.fontSizes.normal / 4
+   },
+   disabled: {
+      cursor: 'default'
+   },
+   fullWidth: {
+      width: '100%'
    },
    content: {
       width: '100%',
       height: '100%',
       display: 'flex',
       alignItems: 'center',
-      justifyContent: ({ justify }) => justify,
-      padding: ({ iconButton }) => iconButton ? '8px 8px' : '8px 15px',
+      padding: '8px 15px',
    },
+   iconButton: {
+      padding: '8px 8px'
+   },
+   ...propValues.justify.reduce((acc, justify) => ({
+      ...acc,
+      [justify]: {
+         justifyContent: justify
+      }
+   }), {}),
    ...propValues.color.reduce((acc, color) => ({
       ...acc,
       ...['enabled', 'disabled'].reduce((acc, status) => ({
@@ -55,6 +72,7 @@ const useStyles = createUseStyles(theme => ({
                   }
                   break;
                case 'filled':
+                  style.boxShadow = theme.darkOrLight('none', theme.shadows[1]);
                   style.backgroundColor = theme.colors[color].disabled;
                   style.color = theme.textColors[Color(theme.colors[color].dark).isLight() ? 'normal' : 'reversed'];
                   if (status === 'enabled') {
@@ -64,6 +82,7 @@ const useStyles = createUseStyles(theme => ({
                   }
                   break;
                default:
+                  style.boxShadow = theme.darkOrLight('none', theme.shadows[1]);
                   style.color = theme.colors[color].disabled;
                   style.backgroundColor = theme.colors[theme.darkOrLight('darkgrey', 'lightgrey')]
                   [status === 'enabled' ? theme.darkOrLight('darker', 'light') : 'disabled'];
@@ -83,12 +102,25 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const Button = React.forwardRef((props, ref) => {
-   const { children, color, type, rounded, round, disabled, fullWidth, iconButton, className, contentClassName, ...others } = props;
-   const classes = useStyles(props);
-   
+   const { children, color, type, rounded, round, disabled, fullWidth, iconButton, className, justify, contentClassName, ...others } = props;
+   const classes = useStyles();
+
    return (
-      <button ref={ref} className={classnames(className, classes.button, classes[`${type}${color}${disabled ? 'disabled' : 'enabled'}`])} {...others}>
-         <div className={classnames(classes.content, contentClassName)}>
+      <button
+         ref={ref}
+         className={classnames(
+            classes.button,
+            classes[`${type}${color}${disabled ? 'disabled' : 'enabled'}`],
+            {
+               [classes.rounded]: !round && rounded,
+               [classes.round]: round,
+               [classes.disabled]: disabled,
+               [classes.fullWidth]: fullWidth
+            },
+            className
+         )}
+         {...others}>
+         <div className={classnames(classes.content, classes[justify], { [classes.iconButton]: iconButton }, contentClassName)}>
             {children}
          </div>
       </button>

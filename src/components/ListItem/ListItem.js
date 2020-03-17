@@ -11,7 +11,7 @@ const useStyles = createUseStyles(theme => ({
         minHeight: theme.unit * 8,
         display: 'block',
         cursor: 'pointer',
-        transition: theme.transition(['background-color']),
+        transition: theme.transition(['background-color'], 100),
         '&::selection': {
             backgroundColor: 'transparent'
         }
@@ -41,7 +41,7 @@ const ListItem = React.forwardRef((props, ref) => {
         disabled,
         ...others
     } = props;
-    const classes = useStyles(props);
+    const classes = useStyles();
 
     delete others.itemId;
 

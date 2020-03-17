@@ -4,8 +4,8 @@ const breakpoints = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
 
 const createTheme = (type, options) => {
    const textColors = {
-      normal: type === 'light' ? '#333333' : '#f2f2f2',
-      reversed: type === 'light' ? '#f7f7f7' : '#333333',
+      normal: type === 'light' ? '#404040' : '#f2f2f2',
+      reversed: type === 'light' ? '#f7f7f7' : '#404040',
    };
    const backgroundColors = {
       default: type === 'light' ? '#f3f3f3' : '#333333',

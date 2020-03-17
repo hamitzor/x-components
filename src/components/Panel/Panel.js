@@ -6,19 +6,38 @@ import classnames from 'classnames';
 const useStyles = createUseStyles(theme => ({
    panel: {
       backgroundColor: theme.backgroundColors.panel,
-      padding: ({ padding }) => padding && theme.unit * 2,
-      boxShadow: ({ shadow }) => shadow ? theme.shadows[1] : theme.shadows[0],
-      borderRadius: ({ rounded }) => rounded ? 4 : 0,
-      height: ({ fullHeight }) => fullHeight && '100%',
+   },
+   padding: {
+      padding: theme.unit * 2
+   },
+   shadow: {
+      boxShadow: theme.shadows[1]
+   },
+   rounded: {
+      borderRadius: 4
+   },
+   fullHeight: {
+      height: '100%'
    }
 }));
 
 const Panel = React.forwardRef((props, ref) => {
    const { children, className, padding, shadow, rounded, fullHeight, ...others } = props;
    const classes = useStyles(props);
-   
+
    return (
-      <div ref={ref} className={classnames(classes.panel, className)} {...others}>
+      <div
+         ref={ref}
+         className={classnames(
+            classes.panel,
+            {
+               [classes.padding]: padding,
+               [classes.shadow]: shadow,
+               [classes.rounded]: rounded,
+               [classes.fullHeight]: fullHeight
+            },
+            className)}
+         {...others}>
          {children}
       </div>
    );

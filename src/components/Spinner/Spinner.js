@@ -2,6 +2,7 @@ import React from 'react';
 import { createUseStyles, useTheme } from 'react-jss';
 import PropTypes from 'prop-types';
 import { CSSTransition } from 'react-transition-group';
+import classnames from 'classnames';
 
 const propValues = {
    color: ['grey', 'darkgrey', 'primary', 'secondary', 'success', 'warning', 'error']
@@ -16,12 +17,17 @@ const useStyles = createUseStyles(theme => ({
       animation: '$spin 1s linear infinite',
       border: `2px solid ${theme.colors[theme.darkOrLight('grey', 'lightgrey')].normal}`,
       borderRadius: '50%',
-      borderTopColor: ({ color }) => theme.colors[color][theme.darkOrLight('light', 'normal')],
       width: '100%',
       height: '100%',
       minWidth: '10px',
       minHeight: '10px'
    },
+   ...propValues.color.reduce((acc, color) => ({
+      ...acc,
+      [color]: {
+         borderTopColor: theme.colors[color][theme.darkOrLight('light', 'normal')]
+      }
+   }), {}),
    enter: {
       opacity: 0,
    },
@@ -42,8 +48,8 @@ const Spinner = React.forwardRef((props, ref) => {
    const { color, visible, animate, ...others } = props;
    const theme = useTheme();
    const classes = useStyles({ ...props, theme });
-   
-   const spinner = <div ref={ref} className={classes.spinner} {...others} />;
+
+   const spinner = <div ref={ref} className={classnames(classes.spinner, classes[color])} {...others} />;
 
    return animate ?
       <CSSTransition

@@ -43,7 +43,7 @@ const useStyles = createUseStyles(theme => ({
    },
    navigation: {
       marginRight: 15,
-      minHeight: '95vh'
+      minHeight: '90vh'
    },
    link: {
       display: 'inline-block',

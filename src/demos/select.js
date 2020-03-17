@@ -15,6 +15,7 @@ const Demo = () => {
    const [selectValue, setSelectValue] = useState('');
    const [disabled, setDisabled] = useState(false);
    const [maxOption, setMaxOption] = useState(7);
+   const [animate, setAnimate] = useState(true);
 
    return (
       <div>
@@ -27,9 +28,10 @@ const Demo = () => {
                error: setError,
                errorMessage: setErrorMessage,
                disabled: setDisabled,
-               maxOption: setMaxOption
+               maxOption: setMaxOption,
+               animate: setAnimate
             }}
-            values={{ simple, color, fullWidth, desc, error, errorMessage, disabled, maxOption }}
+            values={{ simple, color, fullWidth, desc, error, errorMessage, disabled, maxOption, animate }}
             settingsData={{
                props: [
                   { name: 'simple', type: 'bool' },
@@ -40,6 +42,7 @@ const Demo = () => {
                   { name: 'errorMessage', type: 'text' },
                   { name: 'disabled', type: 'bool' },
                   { name: 'maxOption', type: 'number' },
+                  { name: 'animate', type: 'bool' },
                ],
                variables: []
             }} />
@@ -56,7 +59,8 @@ const Demo = () => {
                   onChange={e => setSelectValue(e.target.value)}
                   value={selectValue}
                   maxOption={Number(maxOption)}
-                  disabled={disabled} >
+                  disabled={disabled}
+                  animate={animate}>
                   {['München', 'Nürnberg', 'Augsburg', 'Regensburg', 'Ingolstadt', 'Würzburg', 'Fürth', 'Erlangen', 'Deggendorf'].map(val =>
                      <option key={val} value={val} >
                         {val}

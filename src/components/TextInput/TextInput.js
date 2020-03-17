@@ -11,7 +11,7 @@ const useStyles = createUseStyles(theme => ({
       width: '100%',
       height: ({ lineNumber }) => `calc( ( ${theme.fontSizes.normal}px + 3px ) * ${lineNumber} )`,
       padding: 0,
-      color: ({ disabled }) => disabled ? theme.colors.lightgrey.normal : 'inherit',
+      color: 'inherit',
       fontFamily: 'inherit',
       fontSize: theme.fontSizes.normal,
       resize: 'none',
@@ -23,6 +23,9 @@ const useStyles = createUseStyles(theme => ({
       '&:focus': {
          outline: 'none'
       }
+   },
+   disabled: {
+      color: `${theme.colors[theme.darkOrLight('grey', 'lightgrey')].dark}`
    }
 }));
 
@@ -36,14 +39,14 @@ const TextInput = React.forwardRef((props, ref) => {
       className,
       ...others
    } = props;
-   const classes = useStyles(props);
-   
+   const classes = useStyles({ lineNumber });
+
    return lineNumber < 2 ?
       <input
          ref={ref}
          spellCheck={false}
          onChange={onChange}
-         className={classnames(classes.root, className)}
+         className={classnames(classes.root, { [classes.disabled]: disabled }, className)}
          disabled={disabled}
          type={type}
          value={value}
@@ -52,9 +55,10 @@ const TextInput = React.forwardRef((props, ref) => {
          ref={ref}
          spellCheck={false}
          onChange={onChange}
-         className={classnames(classes.root, className)}
+         className={classnames(classes.root, { [classes.disabled]: disabled }, className)}
          disabled={disabled}
-         value={value} {...others} />;
+         value={value}
+         {...others} />;
 });
 
 TextInput.propTypes = {

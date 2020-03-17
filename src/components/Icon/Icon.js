@@ -9,21 +9,31 @@ const propValues = {
 
 const useStyles = createUseStyles(theme => ({
    icon: {
-      color: ({ color }) => color !== 'inherit' ? theme.colors[color][theme.darkOrLight('light', 'normal')] : 'inherit',
+      color: 'inherit',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      marginLeft: ({ leftGap }) => leftGap && theme.unit,
-      marginRight: ({ rightGap }) => rightGap && theme.unit,
-   }
+   },
+   leftGap: {
+      marginLeft: theme.unit,
+   },
+   rightGap: {
+      marginRight: theme.unit,
+   },
+   ...propValues.color.reduce((acc, color) => ({
+      ...acc,
+      [color]: {
+         color: color !== 'inherit' ? theme.colors[color][theme.darkOrLight('light', 'normal')] : 'inherit'
+      }
+   }), {})
 }));
 
 const Icon = React.forwardRef((props, ref) => {
-   const { children, leftGap, rightGap, color, ...others } = props;
-   const classes = useStyles(props);
-   
+   const { children, color, leftGap, rightGap, ...others } = props;
+   const classes = useStyles();
+
    return (
-      <div ref={ref} className={classnames(classes.icon)} {...others}>
+      <div ref={ref} className={classnames(classes.icon, classes[color], { [classes.leftGap]: leftGap, [classes.rightGap]: rightGap, })} {...others}>
          {children}
       </div>
    );

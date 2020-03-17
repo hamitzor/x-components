@@ -54,7 +54,8 @@ const Tooltip = React.forwardRef((props, ref) => {
     const [tooltipWidth, setTooltipWidth] = useState(0);
     const [tooltipHeight, setTooltipHeight] = useState(0);
     const anchorRef = React.createRef();
-    const tooltipRef = React.createRef();
+    if (!ref)
+        ref = React.createRef();
     const classes = useStyles({ top, left });
 
     useEffect(() => {
@@ -64,23 +65,23 @@ const Tooltip = React.forwardRef((props, ref) => {
         anchorRef.current.addEventListener('mouseleave', () => {
             setVisible(false);
         });
-        setTooltipWidth(tooltipRef.current.offsetWidth);
-        setTooltipHeight(tooltipRef.current.offsetHeight);
+        setTooltipWidth(ref.current.offsetWidth);
+        setTooltipHeight(ref.current.offsetHeight);
     }, []);
 
     useEffect(() => {
         const { offsetTop, offsetHeight, offsetLeft, offsetWidth } = anchorRef.current;
         let top, left;
         if (position === 'bottom' || position === 'top')
-            left = offsetLeft + (offsetWidth - (!ready ? tooltipRef.current.offsetWidth : tooltipWidth)) / 2;
+            left = offsetLeft + (offsetWidth - (!ready ? ref.current.offsetWidth : tooltipWidth)) / 2;
         else
-            top = offsetTop + (offsetHeight - (!ready ? tooltipRef.current.offsetHeight : tooltipHeight)) / 2;
+            top = offsetTop + (offsetHeight - (!ready ? ref.current.offsetHeight : tooltipHeight)) / 2;
         if (position === 'bottom')
             top = offsetTop + offsetHeight + 10;
         else if (position === 'top')
-            top = offsetTop - (!ready ? tooltipRef.current.offsetHeight : tooltipHeight) - 10;
+            top = offsetTop - (!ready ? ref.current.offsetHeight : tooltipHeight) - 10;
         else if (position === 'left')
-            left = offsetLeft - (!ready ? tooltipRef.current.offsetWidth : tooltipWidth) - 10;
+            left = offsetLeft - (!ready ? ref.current.offsetWidth : tooltipWidth) - 10;
         else
             left = offsetLeft + offsetWidth + 10;
         setTop(top);
@@ -89,14 +90,7 @@ const Tooltip = React.forwardRef((props, ref) => {
     }, [props.children]);
 
     const tooltip = (
-        <div
-            className={classnames(classes.tooltip, className)}
-            ref={el => {
-                tooltipRef.current = el;
-                if (ref)
-                    ref.current = el;
-            }}
-            {...others} >
+        <div className={classnames(classes.tooltip, className)} ref={ref} {...others} >
             {text}
         </div>
     );
