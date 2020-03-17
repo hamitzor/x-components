@@ -18,7 +18,7 @@ const createTheme = (type, options) => {
       error = Color('#f26a5e'),
       darkgrey = Color('#454545'),
       grey = Color('#707070'),
-      lightgrey = Color('#dbdbdb');
+      lightgrey = Color('#d5d8db');
 
    const colors = {
       primary: {
@@ -38,7 +38,7 @@ const createTheme = (type, options) => {
          darker: secondary.darken(0.3).toString()
       },
       success: {
-         disabled: success.lighten(0.4).toString(),
+         disabled: success.desaturate(0.4).lighten(0.5).toString(),
          lighter: success.lighten(0.3).toString(),
          light: success.lighten(0.2).toString(),
          normal: success.toString(),
@@ -46,7 +46,7 @@ const createTheme = (type, options) => {
          darker: success.darken(0.3).toString()
       },
       warning: {
-         disabled: warning.lighten(0.4).toString(),
+         disabled: warning.lighten(0.6).toString(),
          lighter: warning.lighten(0.3).toString(),
          light: warning.lighten(0.2).toString(),
          normal: warning.toString(),
@@ -111,6 +111,7 @@ const createTheme = (type, options) => {
    const shadows = type === 'light' ? [
       'none',
       '3px 3px 4px -1px rgba(0,0,0,0.12), 0 0 3px 1px rgba(0,0,0,0.1)',
+      '0px 3px 1px -2px rgba(0,0,0,0.25), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)',
    ] : [
          'none',
          '0 0 1px 2px rgba(255,255,255,0.09)',

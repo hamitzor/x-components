@@ -156,18 +156,7 @@ const Input = React.forwardRef((props, ref) => {
       return { headExtensions, tailExtensions, base };
    };
 
-   const {
-      children,
-      simple,
-      color,
-      fullWidth,
-      label,
-      desc,
-      error,
-      errorMessage,
-      className,
-      ...others
-   } = props;
+   const { children, simple, color, fullWidth, label, desc, error, errorMessage, className, ...others } = props;
    const [ready, setReady] = useState(false);
    const [calculatedLegendWidth, setCalculatedLegendWidth] = useState(0);
    const [transformData, setTransformData] = useState([0, 0]);

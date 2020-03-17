@@ -20,19 +20,10 @@ const useStyles = createUseStyles({
 });
 
 const List = React.forwardRef((props, ref) => {
-    const {
-        children,
-        className,
-        hoverable,
-        rounded,
-        padding,
-        shadow,
-        onSelect,
-        ...others
-    } = props;
+    const { children, className, hoverable, rounded, padding, shadow, onSelect, ...others } = props;
     delete others.activeItemId;
     const classes = useStyles();
-    
+
     return (
         <Panel ref={ref} className={classnames(classes.list, className)} rounded={rounded} padding={padding} shadow={shadow}  {...others}>
             <ul className={classes.ul}>

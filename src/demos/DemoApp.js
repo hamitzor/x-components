@@ -18,8 +18,13 @@ import flex from './flex';
 import inputExtension from './input-extension';
 import tooltip from './tooltip';
 import select from './select';
+import control from './control';
+import alert from './alert';
+import link from './link';
+import badge from './badge';
+import expansion from './expansion';
 
-const demos = [button, flex, icon, inputExtension, list, select, spinner, textInput, tooltip];
+const demos = [alert, badge, button, control, expansion, flex, icon, inputExtension, link, list, select, spinner, textInput, tooltip];
 
 const useStyles = createUseStyles(theme => ({
    themeSwitch: {
@@ -77,7 +82,7 @@ const App = () => {
          <BrowserRouter>
             <div className={classes.container}>
                <Panel className={classes.navigation}>
-                  {demos.map((demo, i) => 
+                  {demos.map((demo, i) =>
                      <div key={i}>
                         <Link to={`/${demo.name}`} className={classes.link} style={{ color: appTheme.textColors.normal }}>
                            {demo.name}

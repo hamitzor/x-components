@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 const useStyles = createUseStyles(theme => ({
-   root: {
+   textInput: {
       border: 'none',
       backgroundColor: 'transparent',
       minWidth: theme.unit * 40,
@@ -30,15 +30,7 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const TextInput = React.forwardRef((props, ref) => {
-   const {
-      type,
-      disabled,
-      value,
-      onChange,
-      lineNumber,
-      className,
-      ...others
-   } = props;
+   const { type, disabled, value, onChange, lineNumber, className, ...others } = props;
    const classes = useStyles({ lineNumber });
 
    return lineNumber < 2 ?
@@ -46,7 +38,7 @@ const TextInput = React.forwardRef((props, ref) => {
          ref={ref}
          spellCheck={false}
          onChange={onChange}
-         className={classnames(classes.root, { [classes.disabled]: disabled }, className)}
+         className={classnames(classes.textInput, { [classes.disabled]: disabled }, className)}
          disabled={disabled}
          type={type}
          value={value}
@@ -55,7 +47,7 @@ const TextInput = React.forwardRef((props, ref) => {
          ref={ref}
          spellCheck={false}
          onChange={onChange}
-         className={classnames(classes.root, { [classes.disabled]: disabled }, className)}
+         className={classnames(classes.textInput, { [classes.disabled]: disabled }, className)}
          disabled={disabled}
          value={value}
          {...others} />;

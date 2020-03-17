@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { childrenValidator } from '../../util';
 import Icon from '../Icon';
+import Badge from '../Badge';
 import Color from 'color';
 
 const propValues = {
@@ -14,6 +15,7 @@ const propValues = {
 
 const useStyles = createUseStyles(theme => ({
    button: {
+      position: 'relative',
       display: 'inline-block',
       textTransform: 'uppercase',
       padding: 0,
@@ -72,9 +74,9 @@ const useStyles = createUseStyles(theme => ({
                   }
                   break;
                case 'filled':
-                  style.boxShadow = theme.darkOrLight('none', theme.shadows[1]);
+                  style.boxShadow = theme.darkOrLight('none', theme.shadows[2]);
                   style.backgroundColor = theme.colors[color].disabled;
-                  style.color = theme.textColors[Color(theme.colors[color].dark).isLight() ? 'normal' : 'reversed'];
+                  style.color = theme.textColors.reversed;
                   if (status === 'enabled') {
                      style.backgroundColor = theme.colors[color][theme.darkOrLight('light', 'normal')];
                      style['&:hover'].backgroundColor = theme.colors[color][theme.darkOrLight('normal', 'dark')];
@@ -82,7 +84,7 @@ const useStyles = createUseStyles(theme => ({
                   }
                   break;
                default:
-                  style.boxShadow = theme.darkOrLight('none', theme.shadows[1]);
+                  style.boxShadow = theme.darkOrLight('none', theme.shadows[2]);
                   style.color = theme.colors[color].disabled;
                   style.backgroundColor = theme.colors[theme.darkOrLight('darkgrey', 'lightgrey')]
                   [status === 'enabled' ? theme.darkOrLight('darker', 'light') : 'disabled'];
@@ -102,7 +104,7 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const Button = React.forwardRef((props, ref) => {
-   const { children, color, type, rounded, round, disabled, fullWidth, iconButton, className, justify, contentClassName, ...others } = props;
+   const { children, color, type, rounded, round, disabled, fullWidth, iconButton, className, justify, contentClassName, badge, ...others } = props;
    const classes = useStyles();
 
    return (
@@ -120,6 +122,7 @@ const Button = React.forwardRef((props, ref) => {
             className
          )}
          {...others}>
+         {badge}
          <div className={classnames(classes.content, classes[justify], { [classes.iconButton]: iconButton }, contentClassName)}>
             {children}
          </div>
@@ -138,7 +141,8 @@ Button.propTypes = {
    fullWidth: PropTypes.bool,
    iconButton: PropTypes.bool,
    justify: PropTypes.oneOf(propValues.justify),
-   contentClassName: PropTypes.string
+   contentClassName: PropTypes.string,
+   badge: childrenValidator([{ type: Badge, max: 1 }])
 };
 
 Button.defaultProps = {

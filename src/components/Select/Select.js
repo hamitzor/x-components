@@ -115,19 +115,7 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const Select = React.forwardRef((props, ref) => {
-    const {
-        children,
-        className,
-        color,
-        disabled,
-        value,
-        selectProps,
-        maxOption,
-        onChange,
-        animate,
-        native,
-        ...others
-    } = props;
+    const { children, className, color, disabled, value, selectProps, maxOption, onChange, animate, native, ...others } = props;
     const [open, setOpen] = useState(false);
     const [busy, setBusy] = useState(false);
     const [ready, setReady] = useState(false);

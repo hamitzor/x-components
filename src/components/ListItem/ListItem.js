@@ -32,15 +32,7 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const ListItem = React.forwardRef((props, ref) => {
-    const {
-        className,
-        children,
-        onSelect,
-        hoverable,
-        selected,
-        disabled,
-        ...others
-    } = props;
+    const { className, children, onSelect, hoverable, selected, disabled, ...others } = props;
     const classes = useStyles();
 
     delete others.itemId;

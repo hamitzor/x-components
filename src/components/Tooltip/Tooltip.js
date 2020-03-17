@@ -38,14 +38,7 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const Tooltip = React.forwardRef((props, ref) => {
-    const {
-        children,
-        className,
-        position,
-        animated,
-        text,
-        ...others
-    } = props;
+    const { children, className, position, animated, text, ...others } = props;
 
     const [ready, setReady] = useState(false);
     const [top, setTop] = useState(0);
