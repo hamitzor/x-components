@@ -7,7 +7,7 @@ import { createUseStyles } from 'react-jss';
 import Settings from './Settings';
 
 const useStyles = createUseStyles({
-   iconContainer: {
+   container: {
       display: 'inline-block',
       margin: 15,
    }
@@ -33,7 +33,7 @@ const Demo = () => {
                   { name: 'size', type: 'number' }
                ]
             }} />
-         <Panel className={classes.iconContainer}>
+         <Panel className={classes.container}>
             <Icon color={color}>
                <MdNotifications style={{ fontSize: size }} />
             </Icon>

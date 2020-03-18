@@ -8,7 +8,7 @@ import { Icon } from '../index';
 import { MdLock, MdAccountBalance } from 'react-icons/md';
 
 const useStyles = createUseStyles({
-   buttonsContainer: {
+   container: {
       margin: 15,
       display: 'flex',
       alignItems: 'center'
@@ -66,7 +66,7 @@ const Demo = () => {
                   { name: 'buttonText', type: 'text' },
                ]
             }} />
-         <Panel className={classes.buttonsContainer}>
+         <Panel className={classes.container}>
             <Button className={classes.button} {...buttonProps}>
                {buttonText}
             </Button>

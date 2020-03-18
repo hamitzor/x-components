@@ -48,14 +48,14 @@ const Demo = () => {
             }} />
          <Panel className={classes.container}>
             {['Car', 'Airplane', 'Heli', 'On Foot'].map(val =>
-               <Flex key={val} container alignItems="center" className={classes.control} onClick={() => setRadioValue(val)} >
+               <Flex key={val} container alignItems="center" className={classes.control} onClick={() => !disabled && setRadioValue(val)} >
                   <Control kind="radio" color={color} checked={val === radioValue} {...controlProps} />
                   <div className={classes.label}>{val}</div>
                </Flex>
             )}
          </Panel>
          <Panel className={classes.container}>
-            <Flex container alignItems="center" className={classes.control} onClick={() => setCheckboxValue(!checkboxValue)} >
+            <Flex container alignItems="center" className={classes.control} onClick={() => !disabled && setCheckboxValue(!checkboxValue)} >
                <Control kind="checkbox" color={color} checked={checkboxValue} {...controlProps} />
                <div className={classes.label}>Remember Me</div>
             </Flex>

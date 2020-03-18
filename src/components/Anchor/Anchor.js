@@ -46,7 +46,7 @@ const useStyles = createUseStyles(theme => ({
     ...colorClasses(theme)
 }));
 
-const Link = props => {
+const Anchor = props => {
     const {
         children,
         color,
@@ -70,17 +70,17 @@ const Link = props => {
     </div>;
 };
 
-Link.propTypes = {
+Anchor.propTypes = {
     children: PropTypes.any,
     className: PropTypes.string,
     color: PropTypes.oneOf(propValues.color),
     disabled: PropTypes.bool
 };
 
-Link.defaultProps = {
+Anchor.defaultProps = {
     className: '',
     color: 'primary',
     disabled: false
 };
 
-export { Link, propValues };
+export { Anchor, propValues };

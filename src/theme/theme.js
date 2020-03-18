@@ -117,9 +117,10 @@ const createTheme = (type, options) => {
          '0 0 1px 2px rgba(255,255,255,0.09)',
       ];
    const z = {
-      Alert: 4000,
-      Popup: 4100,
-      Select: 3900
+      Alert: 5000,
+      Popup: 4900,
+      Menu: 4800,
+      Select: 3900,
    };
    const pixel = value => typeof value === 'number' ? value : breakpointValues[value];
    return {

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Panel from '../components/Panel';
 import Flex from '../components/Flex';
-import Link from '../components/Link';
-import { propValues } from '../components/Link/Link';
+import Anchor from '../components/Anchor';
+import { propValues } from '../components/Anchor/Anchor';
 import { createUseStyles } from 'react-jss';
 import Settings from './Settings';
 
@@ -10,7 +10,7 @@ const useStyles = createUseStyles({
    container: {
       display: 'flex',
    },
-   link: {
+   anchor: {
       margin: 10
    }
 });
@@ -40,9 +40,9 @@ const Demo = () => {
             <Flex container direction="column">
                {propValues.color.map(color =>
                   <div key={color} >
-                     <Link className={classes.link} disabled={disabled} color={color}>
+                     <Anchor className={classes.anchor} disabled={disabled} color={color}>
                         <a href="#">{textValue}</a>
-                     </Link>
+                     </Anchor>
                   </div>
                )}
             </Flex>
@@ -52,4 +52,4 @@ const Demo = () => {
 };
 
 
-export default { name: 'Link', component: Demo };
+export default { name: 'Anchor', component: Demo };

@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import { CSSTransition } from 'react-transition-group';
 import { createUseStyles } from 'react-jss';
 import classnames from 'classnames';
+import HideBodyScrollbar from '../HideBodyScrollbar';
 
 const duration = 120;
 
@@ -158,6 +159,7 @@ const Select = React.forwardRef((props, ref) => {
 
     const menu = (
         <div ref={menuRef} className={classes.menu} >
+            <HideBodyScrollbar />
             <List shadow={false} activeItemId={value} rounded={false} onSelect={(key, i) => setOptionClick({ key, i })}>
                 {React.Children.map(options, (child, i) =>
                     <ListItem className={classes.item} key={i} itemId={`${child.props.value}`}>

@@ -20,11 +20,14 @@ import tooltip from './tooltip';
 import select from './select';
 import control from './control';
 import alert from './alert';
-import link from './link';
+import anchor from './anchor';
 import badge from './badge';
 import expansion from './expansion';
+import menu from './menu';
+import List from '../components/List';
+import ListItem from '../components/ListItem';
 
-const demos = [alert, badge, button, control, expansion, flex, icon, inputExtension, link, list, select, spinner, textInput, tooltip];
+const demos = [alert, anchor, badge, button, control, expansion, flex, icon, inputExtension, list, menu, select, spinner, textInput, tooltip];
 
 const useStyles = createUseStyles(theme => ({
    themeSwitch: {
@@ -48,13 +51,14 @@ const useStyles = createUseStyles(theme => ({
    },
    navigation: {
       marginRight: 15,
-      minHeight: '90vh'
+      minHeight: '80vh',
    },
    link: {
-      display: 'inline-block',
+      display: 'block',
       fontWeight: 600,
       textDecoration: 'none',
-      marginBottom: 5,
+      padding: '10px 20px',
+      width: '100%'
    }
 }));
 
@@ -81,15 +85,18 @@ const App = () => {
          </div>
          <BrowserRouter>
             <div className={classes.container}>
-               <Panel className={classes.navigation}>
-                  {demos.map((demo, i) =>
-                     <div key={i}>
+               <List className={classes.navigation}>
+                  {demos.map(demo =>
+                     <ListItem
+                        itemId={demo.name}
+                        key={demo.name}
+                        style={{ display: 'flex', alignItems: 'center' }}>
                         <Link to={`/${demo.name}`} className={classes.link} style={{ color: appTheme.textColors.normal }}>
                            {demo.name}
                         </Link>
-                     </div>
+                     </ListItem>
                   )}
-               </Panel>
+               </List>
                <Switch>
                   {demos.map(demo =>
                      <Route key={demo.name} exact path={`/${demo.name}`}>

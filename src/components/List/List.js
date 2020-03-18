@@ -16,6 +16,9 @@ const useStyles = createUseStyles({
         margin: 0,
         overflow: 'hidden',
         width: '100%'
+    },
+    rounded: {
+        borderRadius: 4
     }
 });
 
@@ -26,7 +29,7 @@ const List = React.forwardRef((props, ref) => {
 
     return (
         <Panel ref={ref} className={classnames(classes.list, className)} rounded={rounded} padding={padding} shadow={shadow}  {...others}>
-            <ul className={classes.ul}>
+            <ul className={classnames(classes.ul, { [classes.rounded]: rounded })}>
                 {React.Children.map(children, (child, i) => child && React.cloneElement(child, {
                     hoverable: hoverable,
                     onSelect: e => onSelect && onSelect(child.props.itemId, i, e),
