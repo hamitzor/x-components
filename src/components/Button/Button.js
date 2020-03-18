@@ -101,10 +101,28 @@ const useStyles = createUseStyles(theme => ({
          }, {})
       }), {})
    }), {}),
+   noShadow: {
+      boxShadow: 'none'
+   }
 }));
 
 const Button = React.forwardRef((props, ref) => {
-   const { children, color, type, rounded, round, disabled, fullWidth, iconButton, className, justify, contentClassName, badge, ...others } = props;
+   const {
+      children,
+      color,
+      type,
+      rounded,
+      round,
+      disabled,
+      fullWidth,
+      iconButton,
+      className,
+      justify,
+      contentClassName,
+      badge,
+      noShadow,
+      ...others
+   } = props;
    const classes = useStyles();
 
    return (
@@ -117,7 +135,8 @@ const Button = React.forwardRef((props, ref) => {
                [classes.rounded]: !round && rounded,
                [classes.round]: round,
                [classes.disabled]: disabled,
-               [classes.fullWidth]: fullWidth
+               [classes.fullWidth]: fullWidth,
+               [classes.noShadow]: noShadow
             },
             className
          )}
@@ -142,7 +161,8 @@ Button.propTypes = {
    iconButton: PropTypes.bool,
    justify: PropTypes.oneOf(propValues.justify),
    contentClassName: PropTypes.string,
-   badge: childrenValidator([{ type: Badge, max: 1 }])
+   badge: childrenValidator([{ type: Badge, max: 1 }]),
+   noShadow: PropTypes.bool
 };
 
 Button.defaultProps = {
@@ -155,7 +175,8 @@ Button.defaultProps = {
    fullWidth: false,
    iconButton: false,
    justify: 'center',
-   contentClassName: ''
+   contentClassName: '',
+   noShadow: false
 };
 
 export { Button, propValues };

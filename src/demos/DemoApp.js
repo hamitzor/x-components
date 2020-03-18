@@ -26,11 +26,34 @@ import badge from './badge';
 import expansion from './expansion';
 import menu from './menu';
 import popup from './popup';
+import tabs from './tabs';
 
-
-const demos = [alert, anchor, badge, button, control, expansion, flex, icon, inputExtension, list, menu, popup, select, spinner, textInput, tooltip];
+const demos = [
+   alert,
+   anchor,
+   badge,
+   button,
+   control,
+   expansion,
+   flex,
+   icon,
+   inputExtension,
+   list,
+   menu,
+   popup,
+   select,
+   spinner,
+   tabs,
+   textInput,
+   tooltip
+];
 
 const useStyles = createUseStyles(theme => ({
+   '@global': {
+      body: {
+         margin: 0
+      }
+   },
    themeSwitch: {
       textAlign: 'center',
       padding: '5px 0px',
