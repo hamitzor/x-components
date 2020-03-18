@@ -6,7 +6,7 @@ import { propValues } from '../components/Control/Control';
 import { createUseStyles } from 'react-jss';
 import Settings from './Settings';
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles(theme => ({
    container: {
       marginBottom: 15,
       display: 'flex',
@@ -16,9 +16,10 @@ const useStyles = createUseStyles({
       cursor: 'pointer'
    },
    label: {
-      padding: 10
+      padding: 10,
+      color: theme.textColors.normal
    }
-});
+}));
 
 const Demo = () => {
    const [color, setColor] = useState('primary');

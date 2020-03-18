@@ -8,7 +8,8 @@ import {
 import { ThemeProvider } from '../index';
 import { createTheme } from '../theme';
 import { createUseStyles } from 'react-jss';
-import Panel from '../components/Panel';
+import List from '../components/List';
+import ListItem from '../components/ListItem';
 import textInput from './text-input';
 import button from './button';
 import icon from './icon';
@@ -24,10 +25,10 @@ import anchor from './anchor';
 import badge from './badge';
 import expansion from './expansion';
 import menu from './menu';
-import List from '../components/List';
-import ListItem from '../components/ListItem';
+import popup from './popup';
 
-const demos = [alert, anchor, badge, button, control, expansion, flex, icon, inputExtension, list, menu, select, spinner, textInput, tooltip];
+
+const demos = [alert, anchor, badge, button, control, expansion, flex, icon, inputExtension, list, menu, popup, select, spinner, textInput, tooltip];
 
 const useStyles = createUseStyles(theme => ({
    themeSwitch: {
@@ -51,7 +52,7 @@ const useStyles = createUseStyles(theme => ({
    },
    navigation: {
       marginRight: 15,
-      minHeight: '80vh',
+      minHeight: '120vh',
    },
    link: {
       display: 'block',

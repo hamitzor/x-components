@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '../components/Button';
 import Panel from '../components/Panel';
 import Tooltip from '../components/Tooltip';
+import { propValues } from '../components/Tooltip/Tooltip';
 import { createUseStyles } from 'react-jss';
+import Settings from './Settings';
 
 const useStyles = createUseStyles({
    container: {
@@ -16,16 +18,27 @@ const useStyles = createUseStyles({
 });
 const Demo = () => {
    const classes = useStyles();
-   const tooltipRef = React.createRef();
-
+   const [position, setPosition] = useState('bottom');
+   const [text, setText] = useState('This is a tooltip');
    return (
       <div>
+         <Settings
+            onChange={{
+               position: setPosition,
+               text: setText
+            }}
+            values={{  position, text }}
+            settingsData={{
+               props: [
+                  { name: 'position', type: 'select', values: propValues.position },
+                  { name: 'text', type: 'text' },
+               ],
+               variables: []
+            }} />
          <Panel className={classes.container}>
-            {['bottom', 'top', 'left', 'right'].map(position => 
-               <Tooltip ref={tooltipRef} key={position} position={position} text='Cancel this operation'>
-                  <Button className={classes.button} color="error" type="default">{position}</Button>
-               </Tooltip>
-            )}
+            <Tooltip key={position} position={position} text={text}>
+               <Button className={classes.button} color="error" type="default">Hover me</Button>
+            </Tooltip>
          </Panel>
       </div >
    );

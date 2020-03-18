@@ -12,9 +12,9 @@ const colorClasses = theme => propValues.color.reduce((acc, color) => ({
     ...['enabled', 'disabled'].reduce((acc, disabled) => {
         const styles = {};
         if (disabled !== 'disabled') {
-            styles.color = theme.colors[color].normal;
+            styles.color = theme.colors[color][theme.darkOrLight('lighter', 'normal')];
             styles['&:active'] = {
-                color: theme.colors[color].light
+                color: theme.colors[color][theme.darkOrLight('disabled', 'light')]
             };
         }
         else

@@ -90,10 +90,10 @@ const createTheme = (type, options) => {
    const unit = 5;
    const fontFamily = 'Roboto';
    const fontSizes = {
-      h1: 56,
-      h2: 38,
+      h1: 42,
+      h2: 36,
       h3: 28,
-      h4: 23,
+      h4: 24,
       h5: 18,
       h6: 16,
       small: 11,
