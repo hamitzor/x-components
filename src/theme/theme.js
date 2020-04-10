@@ -66,7 +66,7 @@ const createTheme = (type, options) => {
          lighter: lightgrey.lighten(0.08).toString(),
          light: lightgrey.lighten(0.06).toString(),
          normal: lightgrey.toString(),
-         dark: lightgrey.darken(0.2).toString(),
+         dark: lightgrey.darken(0.085).toString(),
          darker: lightgrey.darken(0.3).toString()
       },
       grey: {

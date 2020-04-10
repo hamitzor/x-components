@@ -9,11 +9,6 @@ const propValues = {
     type: ['default', 'filled', 'transparent']
 };
 
-const colorClasses = theme => propValues.color.reduce((acc, color) => ({
-    ...acc,
-    [color]: { borderTopColor: theme.colors[color].normal }
-}), {});
-
 const useStyles = createUseStyles(theme => ({
     tab: {
         transition: theme.transition(),
@@ -24,7 +19,9 @@ const useStyles = createUseStyles(theme => ({
     content: {
         justifyContent: 'center'
     },
-    ...colorClasses(theme)
+    filledActive: {
+        borderTopColor: theme.textColors.reversed
+    },
 }));
 
 const Tab = React.forwardRef((props, ref) => {
@@ -34,8 +31,9 @@ const Tab = React.forwardRef((props, ref) => {
     return (
         <Button
             noShadow
-            className={classnames(classes.tab, { [classes[color]]: active, }, className)}
+            className={classnames(classes.tab, className)}
             rounded={false}
+            active={active}
             color={color}
             type={type}
             contentClassName={classes.content}

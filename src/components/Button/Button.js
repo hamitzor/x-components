@@ -63,8 +63,10 @@ const useStyles = createUseStyles(theme => ({
          ...acc,
          ...propValues.type.reduce((acc, type) => {
             const style = { '&:hover': {}, '&:active': {} };
+            const active = {};
             switch (type) {
                case 'transparent':
+                  active.backgroundColor = Color(theme.colors[color][theme.darkOrLight('light', 'normal')]).alpha(0.2).string();
                   style.color = theme.colors[color].disabled;
                   style.backgroundColor = 'transparent';
                   if (status === 'enabled') {
@@ -74,6 +76,7 @@ const useStyles = createUseStyles(theme => ({
                   }
                   break;
                case 'filled':
+                  active.backgroundColor = theme.colors[color][theme.darkOrLight('normal', 'dark')];
                   style.boxShadow = theme.darkOrLight('none', theme.shadows[2]);
                   style.backgroundColor = theme.colors[color].disabled;
                   style.color = theme.textColors.reversed;
@@ -84,6 +87,7 @@ const useStyles = createUseStyles(theme => ({
                   }
                   break;
                default:
+                  active.backgroundColor = theme.colors[theme.darkOrLight('darkgrey', 'lightgrey')][theme.darkOrLight('dark', 'normal')];
                   style.boxShadow = theme.darkOrLight('none', theme.shadows[2]);
                   style.color = theme.colors[color].disabled;
                   style.backgroundColor = theme.colors[theme.darkOrLight('darkgrey', 'lightgrey')]
@@ -96,7 +100,8 @@ const useStyles = createUseStyles(theme => ({
             }
             return {
                ...acc,
-               [`${type}${color}${status}`]: style
+               [`${type}${color}${status}`]: style,
+               [`${type}${color}Active`]: active
             };
          }, {})
       }), {})
@@ -121,6 +126,7 @@ const Button = React.forwardRef((props, ref) => {
       contentClassName,
       badge,
       noShadow,
+      active,
       ...others
    } = props;
    const classes = useStyles();
@@ -136,7 +142,8 @@ const Button = React.forwardRef((props, ref) => {
                [classes.round]: round,
                [classes.disabled]: disabled,
                [classes.fullWidth]: fullWidth,
-               [classes.noShadow]: noShadow
+               [classes.noShadow]: noShadow,
+               [classes[`${type}${color}Active`]]: active
             },
             className
          )}
@@ -162,7 +169,8 @@ Button.propTypes = {
    justify: PropTypes.oneOf(propValues.justify),
    contentClassName: PropTypes.string,
    badge: childrenValidator([{ type: Badge, max: 1 }]),
-   noShadow: PropTypes.bool
+   noShadow: PropTypes.bool,
+   active: PropTypes.bool
 };
 
 Button.defaultProps = {
@@ -176,7 +184,8 @@ Button.defaultProps = {
    iconButton: false,
    justify: 'center',
    contentClassName: '',
-   noShadow: false
+   noShadow: false,
+   active: false
 };
 
 export { Button, propValues };

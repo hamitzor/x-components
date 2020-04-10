@@ -19,7 +19,7 @@ import flex from './flex';
 import inputExtension from './input-extension';
 import tooltip from './tooltip';
 import select from './select';
-import control from './control';
+import checkbox from './checkbox';
 import alert from './alert';
 import anchor from './anchor';
 import badge from './badge';
@@ -27,13 +27,15 @@ import expansion from './expansion';
 import menu from './menu';
 import popup from './popup';
 import tabs from './tabs';
+import radio from './radio';
 
 const demos = [
    alert,
    anchor,
    badge,
    button,
-   control,
+   checkbox,
+   radio,
    expansion,
    flex,
    icon,

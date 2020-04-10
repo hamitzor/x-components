@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { createUseStyles } from 'react-jss';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
@@ -25,7 +25,7 @@ const useStyles = createUseStyles(theme => ({
       }
    },
    disabled: {
-      color: `${theme.colors[theme.darkOrLight('grey', 'lightgrey')].dark}`
+      color: theme.colors[theme.darkOrLight('grey', 'lightgrey')].dark
    }
 }));
 

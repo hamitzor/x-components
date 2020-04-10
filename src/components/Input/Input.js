@@ -54,7 +54,7 @@ const useStyles = createUseStyles(theme => ({
       }
    }), {}),
    disabledFieldset: {
-      borderColor: `${theme.colors[theme.darkOrLight('grey', 'lightgrey')].dark}`
+      borderColor: theme.colors[theme.darkOrLight('grey', 'lightgrey')].dark
    },
    fieldsetFocused: {
       '& $label': {
@@ -96,7 +96,7 @@ const useStyles = createUseStyles(theme => ({
       fontSize: theme.fontSizes.normal - 3
    },
    disabledDesc: {
-      color: `${theme.colors[theme.darkOrLight('grey', 'lightgrey')].dark}`
+      color: theme.colors[theme.darkOrLight('grey', 'lightgrey')].dark
    },
    error: {
       display: 'inline-block',
@@ -134,7 +134,7 @@ const useStyles = createUseStyles(theme => ({
    disabled: {
       pointerEvents: 'none',
       '& $label, & $headExtension, & $tailExtension': {
-         color: `${theme.colors[theme.darkOrLight('grey', 'lightgrey')].dark}`
+         color: theme.colors[theme.darkOrLight('grey', 'lightgrey')].dark
       }
    },
 }));

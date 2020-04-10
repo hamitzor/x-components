@@ -82,7 +82,7 @@ const Menu = React.forwardRef((props, ref) => {
             setLeft(rect.left);
             setTop(rect.top);
         }
-    }, [anchorEl, clickPosition]);
+    }, [props.anchorEl, props.clickPosition]);
 
     const context = (
         <div

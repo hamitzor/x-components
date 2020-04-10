@@ -43,7 +43,8 @@ const useStyles = createUseStyles(theme => ({
         position: 'absolute',
         zIndex: 40,
         display: 'flex',
-        transition: theme.transition()
+        transition: theme.transition(),
+        left: ({ tabNumber, totalPage, page }) => `calc(( -${tabNumber * theme.unit * 24}px + 100% )/${totalPage - 1}*${page - 1})`
     },
     control: {
         width: theme.unit * 7,
@@ -56,49 +57,52 @@ const useStyles = createUseStyles(theme => ({
     },
     controlRightContent: {
         justifyContent: 'flex-end'
+    },
+    tab: {
+        width: ({ tabNumber }) => `${100 / tabNumber}%`
     }
 }));
 
 const Tabs = React.forwardRef((props, ref) => {
-    const [page, setPage] = useState(1);
-    const [totalPage, setTotalPage] = useState(undefined);
+    const { children, className, radius, color, type, hideControls, active, rounded, onChange, initialPage, ...others } = props;
+    const [page, setPage] = useState(initialPage);
+    const [totalPageNum, setTotalPageNum] = useState(undefined);
     const [ready, setReady] = useState(false);
     const [containerWidth, setContainerWidth] = useState(false);
     const containerRef = React.createRef();
-    const { children, className, radius, color, type, hideControls, active, rounded, onChange, ...others } = props;
-    const classes = useStyles();
     const theme = useTheme();
-
     const tabNumber = children.length;
-    const derivedChildren = React.Children.map(children, child => child &&
+    const tabWidth = theme.unit * 24;
+    const showControls =
+        hideControls ? false : typeof isTouchDevice() === 'boolean' && !isTouchDevice() && containerWidth < tabNumber * tabWidth;
+    const classes = useStyles({ tabNumber, totalPage: totalPageNum, page });
+
+    useEffect(() => {
+        const containerWidth = containerRef.current.offsetWidth;
+        const tabNumber = children.length;
+        setTotalPageNum(Math.ceil(tabNumber / Math.floor(containerWidth / (tabWidth))));
+        setReady(true);
+        setContainerWidth(containerWidth);
+    }, [props.children]);
+
+    const derivedChildren = React.Children.map(children, (child, i) => child &&
         <child.type
             {...child.props}
             type={type}
             color={color}
             active={child.props.tabId === active}
             onActive={(e, id) => onChange(e, id)}
-            style={{ width: `${100 / tabNumber}%` }} />
+            className={classnames(classes.tab, child.props.className)} />
     );
-    const childCount = derivedChildren.length;
-    const showControls = hideControls ? false :
-        typeof isTouchDevice() === 'boolean' && !isTouchDevice() && containerWidth < childCount * theme.unit * 24;
-
-    useEffect(() => {
-        const containerWidth = containerRef.current.offsetWidth;
-        const tabNumber = children.length;
-        setTotalPage(Math.ceil(tabNumber / Math.floor(containerWidth / theme.unit / 24)));
-        setReady(true);
-        setContainerWidth(containerWidth);
-    });
 
     return (
         <div className={classnames(classes.root, { [classes.invisible]: !ready, [classes.rounded]: rounded, }, className)} {...others} ref={ref}>
             {showControls &&
                 <Button
                     onClick={() => setPage(page - 1 < 1 ? 1 : page - 1)}
-                    size='small'
                     type='transparent'
                     color={color}
+                    rounded={rounded}
                     className={classnames(classes.control, { [classes.controlHide]: page < 2 })}
                     contentClassName={classes.controlLeftContent}>
                     <Icon>
@@ -107,18 +111,17 @@ const Tabs = React.forwardRef((props, ref) => {
                 </Button>}
             <div ref={containerRef} className={classnames(classes.container, { [classes.noControls]: !showControls, [classes.rounded]: rounded })}>
                 <div
-                    style={{ left: `calc(calc( -${childCount * theme.unit * 24}px + 100% )/${totalPage - 1}*${page - 1})` }}
                     className={classes.tabs}>
                     {derivedChildren}
                 </div>
             </div>
             {showControls &&
                 <Button
-                    onClick={() => setPage(page + 1 > totalPage ? 1 : page + 1)}
-                    size='small'
+                    onClick={() => setPage(page + 1 > totalPageNum ? 1 : page + 1)}
                     type='transparent'
                     color={color}
-                    className={classnames(classes.control, { [classes.controlHide]: page + 1 > totalPage })}
+                    rounded={rounded}
+                    className={classnames(classes.control, { [classes.controlHide]: page + 1 > totalPageNum })}
                     contentClassName={classes.controlRightContent}>
                     <Icon>
                         <FaChevronRight />
@@ -139,6 +142,7 @@ Tabs.propTypes = {
     type: PropTypes.oneOf(propValues.type),
     rounded: PropTypes.bool,
     hideControls: PropTypes.bool,
+    initialPage: PropTypes.number
 };
 
 Tabs.defaultProps = {
@@ -147,7 +151,8 @@ Tabs.defaultProps = {
     color: 'primary',
     type: 'filled',
     rounded: true,
-    hideControls: false
+    hideControls: false,
+    initialPage: 1
 };
 
 export { Tabs, propValues };

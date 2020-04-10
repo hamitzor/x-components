@@ -2,43 +2,71 @@ import React, { useState } from 'react';
 import Tabs from '../components/Tabs';
 import Tab from '../components/Tab';
 import Panel from '../components/Panel';
-import { propValues } from '../components/Icon/Icon';
+import { propValues } from '../components/Tabs/Tabs';
 import { createUseStyles } from 'react-jss';
 import Settings from './Settings';
 
 const useStyles = createUseStyles({
    container: {
       margin: 15,
+      maxWidth: 600
    },
    tabs: {
       marginBottom: 40
    }
 });
+
 const Demo = () => {
-   const [activeTab, setActiveTab] = useState(0);
-   const [size, setSize] = useState(100);
+   const [activeTab, setActiveTab] = useState(1);
+   const [color, setColor] = useState('primary');
+   const [type, setType] = useState('default');
+   const [rounded, setRounded] = useState(true);
+   const [hideControls, setHideControls] = useState(false);
+   const [tabName, setTabName] = useState('Tab');
    const classes = useStyles();
 
    return (
       <div>
          <Settings
             onChange={{
-               size: setSize
+               color: setColor,
+               type: setType,
+               rounded: setRounded,
+               hideControls: setHideControls,
+               tabName: setTabName
             }}
-            values={{ size }}
+            values={{ color, type, rounded, hideControls, tabName }}
             settingsData={{
                props: [
-                  { name: 'size', type: 'select', values: propValues.color },
+                  { name: 'color', type: 'select', values: propValues.color },
+                  { name: 'type', type: 'select', values: propValues.type },
+                  { name: 'rounded', type: 'bool' },
+                  { name: 'hideControls', type: 'bool' }
                ],
-               variables: []
+               variables: [
+                  { name: 'tabName', type: 'text' }
+               ]
             }} />
          <Panel className={classes.container}>
-            <Tabs className={classes.tabs} type="default" active={activeTab} onChange={(e, id) => setActiveTab(id)}>
-               {[0, 1, 2, 3, 4, 5].map(num => <Tab key={num} tabId={num}>{`Tab ${num + 1}`}</Tab>)}
+            <Tabs
+               className={classes.tabs}
+               hideControls={hideControls}
+               color={color}
+               type={type}
+               rounded={rounded}
+               active={activeTab}
+               onChange={(e, id) => setActiveTab(id)}>
+               {[1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 13, 14].map(num => <Tab key={num} tabId={num}>{`${tabName} ${num}`}</Tab>)}
             </Tabs>
-
-            <Tabs className={classes.tabs} type="default" active={activeTab} onChange={(e, id) => setActiveTab(id)}>
-               {[0, 1, 2, 3].map(num => <Tab key={num} tabId={num}>{`Tab ${num + 1}`}</Tab>)}
+            <Tabs
+               className={classes.tabs}
+               hideControls={hideControls}
+               color={color}
+               type={type}
+               rounded={rounded}
+               active={activeTab}
+               onChange={(e, id) => setActiveTab(id)}>
+               {[1, 2, 3].map(num => <Tab key={num} tabId={num}>{`${tabName} ${num}`}</Tab>)}
             </Tabs>
          </Panel>
       </div>

@@ -53,7 +53,7 @@ const Tooltip = React.forwardRef((props, ref) => {
 
     useEffect(() => {
         setReady(false);
-    }, [className, text]);
+    }, [props.className, props.text]);
 
     useEffect(() => {
         if (!ready) {
