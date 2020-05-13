@@ -16,8 +16,6 @@
       "babel-loader": "^8.0.6",
       "chai": "^4.2.0",
       "change-case": "^4.1.1",
-      "enzyme": "^3.11.0",
-      "enzyme-adapter-react-16": "^1.15.2",
       "eslint": "^6.8.0",
       "express": "^4.17.1",
       "mocha": "^7.0.1",
@@ -37,9 +35,12 @@
       "react-jss": "^10.0.4",
       "react-transition-group": "^4.3.0"
    },
+   "resolutions": {
+      "@babel/preset-env": "^7.8.0"
+   },
    "scripts": {
       "watch": "webpack --watch --mode=development",
-      "start": "nodemon serve-demo-site.js",
-      "test": "mocha -r @babel/register -r init-enzyme.js src/**/*.test.js"
+      "build": "webpack --mode=development",
+      "start": "nodemon serve-demo-site.js"
    }
 }
