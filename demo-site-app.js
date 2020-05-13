@@ -23,5 +23,5 @@ const indexHTML = `
 app.use('/static/js', express.static(path.resolve(__dirname, 'lib')));
 app.use('/', express.static(path.resolve(__dirname, 'demo-site')));
 app.get('*', (req, res) => res.send(indexHTML));
-const port = process.argv[2] ? process.argv[2] : 4000;
-app.listen(port, () => console.log(`Test server started at http://localhost:${port}`));
+
+exports.app = app;
