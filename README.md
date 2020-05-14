@@ -1,6 +1,7 @@
 # X-Components
 
 Reusable React components to create complex UIs.
+Demo application can be inspected at [https://x-components.hamitzor.de](https://x-components.hamitzor.de/InputExtension)
 
 To run the demo:
 
