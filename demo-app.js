@@ -1,6 +1,6 @@
 const path = require('path');
 const express = require('express');
-
+const compression = require('compression');
 const app = express();
 
 const indexHTML = `
@@ -20,6 +20,7 @@ const indexHTML = `
 </html>
 `;
 
+app.use(compression());
 app.use('/static/js', express.static(path.resolve(__dirname, 'lib')));
 app.use('/', express.static(path.resolve(__dirname, 'demo-site')));
 app.get('*', (req, res) => res.send(indexHTML));
