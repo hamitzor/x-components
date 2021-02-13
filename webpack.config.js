@@ -4,7 +4,7 @@ const demo = {
    entry: './src/demos/index.js',
    devtool: 'source-map',
    output: {
-      path: path.resolve(__dirname, 'lib'),
+      path: path.resolve(__dirname, 'dist'),
       filename: 'demo.bundle.js',
    },
    module: {
