@@ -1,5 +1,5 @@
 {
-   "name": "x-components",
+   "name": "@hamitzor/x-components",
    "version": "1.0.0",
    "description": "Lightweight React Components for Complex UIs",
    "main": "./index.js",
